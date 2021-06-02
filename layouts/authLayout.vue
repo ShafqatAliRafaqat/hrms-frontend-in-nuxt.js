@@ -1,7 +1,5 @@
 <template>
   <v-app>
-    <AppBar />
-    <Drawer/>
     <v-main>
       <v-container>
         <snackbar v-if="notify.snackbar"></snackbar>
@@ -9,18 +7,15 @@
         <nuxt />
       </v-container>
     </v-main>
-    <Footer />
   </v-app>
 </template>
+
 <script>
-import AppBar from "../components/Navigation/AppBar";
-import Footer from "~/components/Navigation/Footer";
 import Snackbar from "~/components/Snackbar";
 import Loader from "~/components/Loader";
-import Drawer from "../components/Navigation/Drawer";
 export default {
-middleware: ["auth"],
-components:{AppBar, Footer,Snackbar,Loader, Drawer},
+  name: "authLayout.vue",
+  components:{Snackbar,Loader},
   computed:{
     notify(){
       return this.$store.state.alert
@@ -28,6 +23,14 @@ components:{AppBar, Footer,Snackbar,Loader, Drawer},
     loader(){
       return this.$store.state.loader
     }
+  },
+  created() {
+    this.$store.commit('SHOW_SNACKBAR', {snackbar:false,color:'', message:''})
+
   }
 }
 </script>
+
+<style scoped>
+
+</style>

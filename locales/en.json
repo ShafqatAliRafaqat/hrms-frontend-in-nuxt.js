@@ -1,0 +1,42 @@
+{
+  "home": "Home",
+  "about_us": "About Us",
+  "payroll": "Payroll",
+  "setup": "Setup",
+  "maintenance": "Maintenance",
+  "issuance": "Issuance",
+  "welcome": "Welcome",
+  "hr_system": "HR SYSTEM",
+  "my_profile": "My Profile",
+  "logout": "Logout",
+  "name": "Name",
+  "email": "Email",
+  "password": "Password",
+
+  "company_setup": "Company Setup",
+  "setup_master_files": "Setup Master Files",
+  "application_preferences": "Application Preferences",
+  "assoc_benefits": "Assoc Pos. w/Benefits",
+  "assoc_position": "Assoc. Position/Evaluation",
+  "setup_letter": "Setup Letter",
+  "sms_letter": "SMS Letter",
+
+
+  "sing_in_heading": "Welcome to Your HRMS Profile.",
+  "sing_in_subheading": "Make your valuable accounting & HR business more powerful now ",
+
+  "sing_up_heading": "Join the Treat Spot ",
+  "sing_up_subheading": "Sign up to access exclusive deals, bookmark your favorite articles, and secure all kinds of goodies. ",
+
+  "have_an_account": "Have an account?",
+  "dont_have_an_account": "Don’t have an account?",
+  "reset_password": "Reset Password",
+  "remember_password": "Remember your password?",
+
+  "username": "Username or Email Address",
+  "remember_me": "Remember Me",
+  "sign_up": "Sign Up",
+  "log_in": "log in",
+
+  "lost_password": "Lost your password?"
+}
