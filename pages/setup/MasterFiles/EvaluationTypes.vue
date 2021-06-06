@@ -36,6 +36,7 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
+                      @click="reset"
                     >
                       Add Evaluation
                     </v-btn>
@@ -139,6 +140,7 @@
 
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
+import Vue from "vue";
 export default {
   name: "EvaluationTypes",
   components: {MaterialCard },
@@ -160,10 +162,6 @@ export default {
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        en_name: '',
-        ar_name: '',
-      },
-      defaultItem: {
         en_name: '',
         ar_name: '',
       },
@@ -196,7 +194,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/evaluation_types/"+this.editedItem.id,
+            path:"/evaluation_type/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -235,7 +233,7 @@ export default {
       this.editedIndex = 2
       // this.editedIndex =this.desserts.indexOf(item)
       // console.log('index',this.desserts.indexOf(item))
-      this.editedItem =item
+      this.editedItem = Vue.util.extend({}, item);
       this.dialog = true
     },
     deleteItem (id) {
@@ -261,7 +259,12 @@ export default {
         this.getList()
       });
     },
-
+    reset() {
+      this.editedItem.en_name = ''
+      this.editedItem.ar_name = ''
+      this.countryId = []
+      this.editedIndex = -1
+    }
   },
 }
 </script>

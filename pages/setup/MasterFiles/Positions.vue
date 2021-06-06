@@ -36,6 +36,7 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
+                      @click="reset"
                     >
                       Add Position
                     </v-btn>
@@ -81,6 +82,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.level"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Level"
                                   color="success"
                                   hide-details
@@ -93,6 +96,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.is_active"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Is Active"
                                   color="success"
                                   hide-details
@@ -162,6 +167,7 @@
 
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
+import Vue from "vue";
 export default {
   name: "Positions",
   middleware: ["auth"],
@@ -187,14 +193,8 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-        is_active: 0,
-        level: 0
-      },
-      defaultItem: {
-        en_name: '',
-        ar_name: '',
-        is_active: 0,
-        level: 0
+        is_active: '0',
+        level: '0'
       },
       countryId:[],
       allData: []
@@ -224,11 +224,9 @@ export default {
     },
     async save () {
       if(this.$refs.form.validate()) {
-        this.editedItem.level = this.editedItem.level === true ? 1: 0
-        this.editedItem.is_active = this.editedItem.is_active === true ? 1: 0
         if (this.editedIndex > -1) {
           let data={
-            path:"/designations/"+this.editedItem.id,
+            path:"/designation/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -267,7 +265,7 @@ export default {
       this.editedIndex = 2
       // this.editedIndex =this.desserts.indexOf(item)
       // console.log('index',this.desserts.indexOf(item))
-      this.editedItem =item
+      this.editedItem = Vue.util.extend({}, item);
       this.dialog = true
     },
     deleteItem (id) {
@@ -292,6 +290,14 @@ export default {
         });
         this.getList()
       });
+    },
+    reset() {
+      this.editedItem.en_name = ''
+      this.editedItem.ar_name = ''
+      this.editedItem.is_active = '0'
+      this.editedItem.level = '0'
+      this.countryId = []
+      this.editedIndex = -1
     }
   },
 }

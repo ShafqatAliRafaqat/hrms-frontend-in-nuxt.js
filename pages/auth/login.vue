@@ -91,13 +91,15 @@ export default {
         await this.$store.dispatch('login',this.form)
           .then(response => {
             console.log('login res',response)
-            this.$store.commit('SHOW_SNACKBAR',{  snackbar:true,color:'green',message:response.message})
+            this.$store.commit('SHOW_SNACKBAR',{  snackbar:true,color:'green',message:response.data.message})
 
             this.$store.commit('SHOW_LOADER', false)
             this.$router.push('/setup')
           }).catch(error => {
+
+            console.log('login catch block',error.response.data.message)
             this.$store.commit('SHOW_LOADER', false)
-            this.$store.commit('SHOW_SNACKBAR',{  snackbar:true,color:'pink',message:error})
+            this.$store.commit('SHOW_SNACKBAR',{  snackbar:true,color:'red',message:error.response.data.message})
           })
       }
     }

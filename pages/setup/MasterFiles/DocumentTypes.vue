@@ -35,8 +35,9 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
+                      @click="reset"
                     >
-                      Add Evaluation
+                      Add Document Type
                     </v-btn>
                   </template>
                   <v-card>
@@ -79,18 +80,6 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Date"
-                                  type="date"
-                                  v-model="editedItem.date"
-                                  :rules="[ (value) => !!value || 'This  field is required']"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-text-field
                                   label="Exp Date"
                                   type="date"
                                   v-model="editedItem.exp_date"
@@ -104,6 +93,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.hijriflag"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Hijri Flag"
                                   color="success"
                                   hide-details
@@ -116,6 +107,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.co_flag"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Co Flag"
                                   color="success"
                                   hide-details
@@ -128,7 +121,23 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.substitution"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Substitution"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.renew_flag"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Renew Flag"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -145,7 +154,7 @@
                       <v-btn
                         color="blue darken-1"
                         text
-                        @click="dialog=false"
+                        @click="dialog = false"
                       >
                         Cancel
                       </v-btn>
@@ -197,6 +206,7 @@
 
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
+import Vue from "vue";
 export default {
   name: "DocumentTypes",
   components: {MaterialCard },
@@ -213,10 +223,11 @@ export default {
         },
         { text: 'En Name', value: 'en_name' },
         { text: 'Ar Name', value: 'ar_name' },
-        { text: 'Date', value: 'date' },
+        { text: 'Exp Date', value: 'exp_date' },
         { text: 'Hijri Flag', value: 'hijriflag' },
         { text: 'Co Flag', value: 'co_flag' },
         { text: 'Substitution', value: 'substitution' },
+        { text: 'Renew Flag', value: 'renew_flag' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -224,20 +235,11 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-        date: '',
         exp_date: '',
-        hijriflag: false,
-        co_flag: false,
-        substitution: false
-      },
-      defaultItem: {
-        en_name: '',
-        ar_name: '',
-        date: '',
-        exp_date: '',
-        hijriflag: false,
-        co_flag: false,
-        substitution: false
+        hijriflag: '0',
+        co_flag: '0',
+        substitution: '0',
+        renew_flag: '0',
       },
       countryId:[],
       allData: []
@@ -266,12 +268,9 @@ export default {
     },
     async save () {
       if(this.$refs.form.validate()) {
-        this.editedItem.hijriflag = this.editedItem.hijriflag === true ? 1: 0
-        this.editedItem.co_flag = this.editedItem.co_flag === true ? 1: 0
-        this.editedItem.substitution = this.editedItem.substitution === true ? 1: 0
         if (this.editedIndex > -1) {
           let data={
-            path:"/documents/"+this.editedItem.id,
+            path:"/document/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -310,7 +309,7 @@ export default {
       this.editedIndex = 2
       // this.editedIndex =this.desserts.indexOf(item)
       // console.log('index',this.desserts.indexOf(item))
-      this.editedItem =item
+      this.editedItem = Vue.util.extend({}, item);
       this.dialog = true
     },
     deleteItem (id) {
@@ -336,6 +335,17 @@ export default {
         this.getList()
       });
     },
+    reset() {
+      this.editedItem.en_name = ''
+      this.editedItem.ar_name = ''
+      this.editedItem.exp_date = ''
+      this.editedItem.hijriflag = '0'
+      this.editedItem.co_flag = '0'
+      this.editedItem.substitution = '0'
+      this.editedItem.renew_flag = '0'
+      this.countryId = []
+      this.editedIndex = -1
+    }
 
   },
 }

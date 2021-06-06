@@ -26,6 +26,8 @@ export default {
   },
   created() {
     this.$store.commit('SHOW_SNACKBAR', {snackbar:false,color:'', message:''})
+    this.$store.commit('SHOW_LOADER', false)
+
 
   }
 }

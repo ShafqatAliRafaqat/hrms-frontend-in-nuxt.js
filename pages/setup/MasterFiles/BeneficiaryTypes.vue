@@ -36,6 +36,7 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
+                      @click="reset"
                     >
                       Add Beneficiary Type
                     </v-btn>
@@ -81,6 +82,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.parentbenefit"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Parent Benefit"
                                   color="success"
                                   hide-details
@@ -93,6 +96,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.finalsetflag"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Final set Flag"
                                   color="success"
                                   hide-details
@@ -105,6 +110,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.moneyvalueflag"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Money Value Flag"
                                   color="success"
                                   hide-details
@@ -117,6 +124,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.holidayflag"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Holiday Flag"
                                   color="success"
                                   hide-details
@@ -129,6 +138,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.printable"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Printable"
                                   color="success"
                                   hide-details
@@ -141,6 +152,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.modifyflag"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Modify Flag"
                                   color="success"
                                   hide-details
@@ -153,6 +166,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.is_active"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Is Active"
                                   color="success"
                                   hide-details
@@ -165,6 +180,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.credit_glid"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Credit Glid"
                                   color="success"
                                   hide-details
@@ -177,6 +194,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.showinreport"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Show in Report"
                                   color="success"
                                   hide-details
@@ -189,6 +208,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.mulfactor"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="mulfactor"
                                   color="success"
                                   hide-details
@@ -201,6 +222,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.percent_frsalary"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Percent for Salary"
                                   color="success"
                                   hide-details
@@ -213,6 +236,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.mb"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="mb"
                                   color="success"
                                   hide-details
@@ -282,6 +307,7 @@
 
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
+import Vue from "vue";
 export default {
   name: "BeneficiaryTypes",
   components: {MaterialCard },
@@ -317,34 +343,18 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-        parentbenefit: false,
-        finalsetflag: false,
-        moneyvalueflag: false,
-        holidayflag: false,
-        printable: false,
-        modifyflag: false,
-        is_active: false,
-        credit_glid: false,
-        showinreport: false,
-        mulfactor: false,
-        percent_frsalary: false,
-        mb: false,
-      },
-      defaultItem: {
-        en_name: '',
-        ar_name: '',
-        parentbenefit: false,
-        finalsetflag: false,
-        moneyvalueflag: false,
-        holidayflag: false,
-        printable: false,
-        modifyflag: false,
-        is_active: false,
-        credit_glid: false,
-        showinreport: false,
-        mulfactor: false,
-        percent_frsalary: false,
-        mb: false,
+        parentbenefit: '0',
+        finalsetflag: '0',
+        moneyvalueflag: '0',
+        holidayflag: '0',
+        printable: '0',
+        modifyflag: '0',
+        is_active: '0',
+        credit_glid: '0',
+        showinreport: '0',
+        mulfactor: '0',
+        percent_frsalary: '0',
+        mb: '0',
       },
       countryId:[],
       allData: []
@@ -373,21 +383,9 @@ export default {
     },
     async save () {
       if(this.$refs.form.validate()) {
-        this.editedItem.parentbenefit = this.editedItem.parentbenefit === true ? 1: 0
-        this.editedItem.finalsetflag = this.editedItem.finalsetflag === true ? 1: 0
-        this.editedItem.moneyvalueflag = this.editedItem.moneyvalueflag === true ? 1: 0
-        this.editedItem.holidayflag = this.editedItem.holidayflag === true ? 1: 0
-        this.editedItem.printable = this.editedItem.printable === true ? 1: 0
-        this.editedItem.modifyflag = this.editedItem.modifyflag === true ? 1: 0
-        this.editedItem.credit_glid = this.editedItem.credit_glid === true ? 1: 0
-        this.editedItem.showinreport = this.editedItem.showinreport === true ? 1: 0
-        this.editedItem.mulfactor = this.editedItem.mulfactor === true ? 1: 0
-        this.editedItem.percent_frsalary = this.editedItem.percent_frsalary === true ? 1: 0
-        this.editedItem.is_active = this.editedItem.is_active === true ? 1: 0
-        this.editedItem.mb = this.editedItem.mb === true ? 1: 0
         if (this.editedIndex > -1) {
           let data={
-            path:"/beneficiary_types/"+this.editedItem.id,
+            path:"/beneficiary_type/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -426,7 +424,7 @@ export default {
       this.editedIndex = 2
       // this.editedIndex =this.desserts.indexOf(item)
       // console.log('index',this.desserts.indexOf(item))
-      this.editedItem =item
+      this.editedItem = Vue.util.extend({}, item);
       this.dialog = true
     },
     deleteItem (id) {
@@ -452,6 +450,24 @@ export default {
         this.getList()
       });
     },
+    reset() {
+      this.editedItem.en_name = ''
+      this.editedItem.ar_name = ''
+      this.editedItem.parentbenefit = '0'
+      this.editedItem.finalsetflag = '0'
+      this.editedItem.holidayflag = '0'
+      this.editedItem.printable = '0'
+      this.editedItem.modifyflag = '0'
+      this.editedItem.is_active = '0'
+      this.editedItem.credit_glid = '0'
+      this.editedItem.showinreport = '0'
+      this.editedItem.mulfactor = '0'
+      this.editedItem.percent_frsalary = '0'
+      this.editedItem.mb = '0'
+      this.editedItem.moneyvalueflag = '0'
+      this.countryId = []
+      this.editedIndex = -1
+    }
 
   },
 }

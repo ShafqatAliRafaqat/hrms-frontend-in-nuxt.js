@@ -53,6 +53,7 @@
                       <v-container>
                         <v-form ref="form">
                           <v-row>
+
                             <v-col
                               cols="12"
                               sm="6"
@@ -198,7 +199,7 @@ export default {
         { text: 'Ar Name', value: 'ar_name' },
         { text: 'Region', value: 'region' },
         { text: 'Ticket Value', value: 'ticket_value' },
-        { text: 'Country Id', value: 'country_id.en_name' },
+        { text: 'Country', value: 'country_id.en_name' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -208,7 +209,7 @@ export default {
         ar_name: '',
         region: '',
         ticket_value: '',
-        country_id: '',
+        country_id:'',
 
       },
       defaultItem: {
@@ -218,7 +219,8 @@ export default {
         ticket_value: '',
         country_id: '',
       },
-      cityData:[]
+      cityData:[],
+      cityId:[]
     }
   },
   created () {
@@ -246,6 +248,7 @@ export default {
         path:"/cities",
       }
       this.$store.dispatch('list',data).then(response => {
+        console.log('city list',response.data.data)
         this.cityData=response.data.data
         this.$store.commit("SHOW_LOADER", false);
         this.$store.commit("SHOW_SNACKBAR", {
@@ -256,6 +259,15 @@ export default {
 
       });
     },
+    editItem (item) {
+      this.editedIndex = 2
+      // console.log('index',item.country_id.id)
+      this.editedItem =item
+      // this.editedItem.country_id=item.country_id.id
+      // console.log('item',this.editedItem)
+
+      this.dialog = true
+    },
     async save () {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
@@ -263,9 +275,14 @@ export default {
             path:"/city/"+this.editedItem.id,
             data:this.editedItem
           }
+          data.data.country_id=data.data.country_id.id
+
+          console.log(' data',data)
           this.dialog = false
           this.$store.commit("SHOW_LOADER", true);
           await this.$store.dispatch("update", data).then(response => {
+            console.log('edit form res',response)
+
             this.$store.commit("SHOW_LOADER", false);
             this.$store.commit("SHOW_SNACKBAR", {
               snackbar: true,
@@ -295,15 +312,10 @@ export default {
       }
 
     },
-    editItem (item) {
-      this.editedIndex = 2
-      // this.editedIndex =this.desserts.indexOf(item)
-      // console.log('index',this.desserts.indexOf(item))
-      this.editedItem =item
-      this.dialog = true
-    },
+
     deleteItem (id) {
-      this.countryId[0]=id
+      console.log('idss',id)
+      this.cityId[0]=id
       // this.editedIndex = this.desserts.indexOf(item)
       // this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
@@ -312,16 +324,17 @@ export default {
       this.dialogDelete = false
       this.$store.commit("SHOW_LOADER", true);
       let data = {
-        'ids': this.countryId,
+        'ids': this.cityId,
+        'path' : '/delete_cities'
       }
-      await this.$store.dispatch("deleteCountries", data).then(response => {
+      await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
         this.$store.commit("SHOW_SNACKBAR", {
           snackbar: true,
           color: "green",
           message: response.data.message
         });
-        this.countryList()
+        this.cityList()
       });
     },
 

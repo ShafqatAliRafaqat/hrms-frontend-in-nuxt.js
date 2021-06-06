@@ -62,16 +62,14 @@ export default () => {
     },
     actions: {
       async login({ dispatch }, data) {
-        return axios({
+      return axios({
           method: "POST",
           url: "/login",
           data : data
         }).then(response => {
           dispatch("setCurrentUser", response.data);
-          return response.data;
-        }).catch(error => {
-          console.log(error)
-        });
+          return response;
+        })
       },
       register ({ dispatch },data){
         return axios({
@@ -81,14 +79,13 @@ export default () => {
         }).then(response => {
           dispatch("setCurrentUser", response.data);
           return response.data;
-        }).catch(error => {
-          console.log(error)
         })
       },
       setCurrentUser: function({ commit }, response) {
+        console.log('set',response)
         if (response.data) {
           commit("SET_USER", response.data);
-          setAuthToken(response.data);
+          setAuthToken(response.data.token);
           localStorage.setItem("x-access-token", response.data.token);
         }
       },
@@ -96,33 +93,16 @@ export default () => {
         commit("RESET_USER");
         commit('SHOW_SNACKBAR', {snackbar:true,color:'green', message:'Successfully logged out'})
         resetAuthToken();
-        // cookies.remove('x-access-token')
         localStorage.removeItem("x-access-token");
         localStorage.removeItem("vuex");
         return Promise.resolve();
       },
-      // countryList({commit}){
-      //    commit("SHOW_LOADER", true);
-      //    axios({
-      //     method: "GET",
-      //     url: "/all_countries",
-      //   }).then(response => {
-      //     commit("COUNTRIES_LIST", response.data.data);
-      //     commit("SHOW_LOADER", false);
-      //   }).catch(error => {
-      //      commit('SHOW_SNACKBAR', {snackbar:true,color:'pink', message:error.message})
-      //   });
-      // },
       list({commit},data){
         commit("SHOW_LOADER", true);
         return axios({
           method: "GET",
           url: data.path,
-        }).then(response => {
-          return response;
-        }).catch(error => {
-          commit('SHOW_SNACKBAR', {snackbar:true,color:'pink', message:error.message})
-        });
+        })
       },
       create({dispatch,commit},data){
         return axios({
@@ -131,20 +111,16 @@ export default () => {
           data:data.data
         }).then(response =>{
           return response;
-        }).catch(error => {
-            commit('SHOW_SNACKBAR', {snackbar:true,color:'pink', message:error})
-        });
+        })
       },
       update({dispatch,commit},data){
         return axios({
-          method:'Put',
+          method:'POST',
           url:data.path,
           data:data.data
         }).then(response =>{
           return response;
-        }).catch(error => {
-            commit('SHOW_SNACKBAR', {snackbar:true,color:'pink', message:error.message})
-        });
+        })
       },
       delete({dispatch,commit},data){
         return axios({
@@ -153,9 +129,7 @@ export default () => {
           data:data
         }).then(response =>{
           return response;
-        }).catch(error => {
-            commit('SHOW_SNACKBAR', {snackbar:true,color:'yellow', message:error.message})
-        });
+        })
       },
 
 

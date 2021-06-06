@@ -36,6 +36,7 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
+                      @click="reset"
                     >
                       Add Leave Type
                     </v-btn>
@@ -92,6 +93,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.is_salary"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Is Salary"
                                   color="success"
                                   hide-details
@@ -104,6 +107,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.requirevisa"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Require Visa"
                                   color="success"
                                   hide-details
@@ -116,6 +121,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.withpay"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="With Pay"
                                   color="success"
                                   hide-details
@@ -128,6 +135,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.operator"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Operator"
                                   color="success"
                                   hide-details
@@ -140,6 +149,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.extra_leavecalc"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Extra Leave calc"
                                   color="success"
                                   hide-details
@@ -152,6 +163,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.is_active"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Is Active"
                                   color="success"
                                   hide-details
@@ -164,6 +177,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.is_settlement"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Is Settlement"
                                   color="success"
                                   hide-details
@@ -176,6 +191,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.request"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Request"
                                   color="success"
                                   hide-details
@@ -247,6 +264,7 @@
 
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
+import Vue from "vue";
 export default {
   name: "LeaveTypes",
   middleware: ["auth"],
@@ -279,26 +297,15 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-        is_salary: false,
-        requirevisa: false,
-        withpay: false,
-        operator: false,
-        extra_leavecalc: false,
-        is_active: false,
-        is_settlement: false,
-        request: false,
-      },
-      defaultItem: {
-        en_name: '',
-        ar_name: '',
-        is_salary: false,
-        requirevisa: false,
-        withpay: false,
-        operator: false,
-        extra_leavecalc: false,
-        is_active: false,
-        is_settlement: false,
-        request: false,
+        duration: '',
+        is_salary: '0',
+        requirevisa: '0',
+        withpay: '0',
+        operator: '0',
+        extra_leavecalc: '0',
+        is_active: '0',
+        is_settlement: '0',
+        request: '0',
       },
       countryId:[],
       allData: []
@@ -327,17 +334,9 @@ export default {
     },
     async save () {
       if(this.$refs.form.validate()) {
-        this.editedItem.is_salary = this.editedItem.is_salary === true ? 1: 0
-        this.editedItem.requirevisa = this.editedItem.requirevisa === true ? 1: 0
-        this.editedItem.withpay = this.editedItem.withpay === true ? 1: 0
-        this.editedItem.operator = this.editedItem.operator === true ? 1: 0
-        this.editedItem.extra_leavecalc = this.editedItem.extra_leavecalc === true ? 1: 0
-        this.editedItem.is_active = this.editedItem.is_active === true ? 1: 0
-        this.editedItem.is_settlement = this.editedItem.is_settlement === true ? 1: 0
-        this.editedItem.request = this.editedItem.request === true ? 1: 0
         if (this.editedIndex > -1) {
           let data={
-            path:"/leaves/"+this.editedItem.id,
+            path:"/leave/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -376,7 +375,7 @@ export default {
       this.editedIndex = 2
       // this.editedIndex =this.desserts.indexOf(item)
       // console.log('index',this.desserts.indexOf(item))
-      this.editedItem =item
+      this.editedItem = Vue.util.extend({}, item);
       this.dialog = true
     },
     deleteItem (id) {
@@ -402,6 +401,21 @@ export default {
         this.getList()
       });
     },
+    reset() {
+      this.editedItem.en_name = ''
+      this.editedItem.ar_name = ''
+      this.editedItem.duration = ''
+      this.editedItem.is_salary = '0'
+      this.editedItem.requirevisa = '0'
+      this.editedItem.withpay = '0'
+      this.editedItem.operator = '0'
+      this.editedItem.extra_leavecalc = '0'
+      this.editedItem.is_active = '0'
+      this.editedItem.is_settlement = '0'
+      this.editedItem.request = '0'
+      this.countryId = []
+      this.editedIndex = -1
+    }
 
   },
 }

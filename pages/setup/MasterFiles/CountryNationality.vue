@@ -262,7 +262,10 @@ export default {
       let data={
         path:"/all_countries",
       }
-      this.$store.dispatch('create',data).then(response => {
+      this.$store.dispatch('list',data)
+        .then(response => {
+          console.log('yesss')
+          console.log('cl',response)
         this.$store.commit("COUNTRIES_LIST", response.data.data);
         this.$store.commit("SHOW_LOADER", false);
         this.$store.commit("SHOW_SNACKBAR", {
@@ -270,7 +273,13 @@ export default {
           color: "green",
           message: response.data.message
         });
+      }).catch(error=>{
 
+        console.log('Noooo')
+        console.log('e',error)
+        console.log('er',error.response)
+        this.$store.commit('SHOW_LOADER', false)
+        this.$store.commit('SHOW_SNACKBAR',{  snackbar:true,color:'red',message:error.response.data.message})
       });
     },
     async save () {
@@ -280,9 +289,13 @@ export default {
             path:"/country/"+this.editedItem.id,
             data:this.editedItem
           }
+          console.log('edit form',this.editedItem.id)
+          console.log('edit form data',this.editedItem)
           this.dialog = false
           this.$store.commit("SHOW_LOADER", true);
           await this.$store.dispatch("update", data).then(response => {
+            console.log('edit form res',response)
+
             this.$store.commit("SHOW_LOADER", false);
             this.$store.commit("SHOW_SNACKBAR", {
               snackbar: true,
@@ -328,10 +341,12 @@ export default {
     async deleteItemConfirm() {
     this.dialogDelete = false
     this.$store.commit("SHOW_LOADER", true);
-    let data = {
-      'ids': this.countryId,
-    }
-    await this.$store.dispatch("deleteCountries", data).then(response => {
+
+      let data = {
+        'ids': this.countryId,
+        'path' : '/delete_countries'
+      }
+    await this.$store.dispatch("delete", data).then(response => {
       this.$store.commit("SHOW_LOADER", false);
       this.$store.commit("SHOW_SNACKBAR", {
         snackbar: true,

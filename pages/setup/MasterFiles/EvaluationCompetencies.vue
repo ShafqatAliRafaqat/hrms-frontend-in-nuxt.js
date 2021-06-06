@@ -35,6 +35,7 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
+                      @click="reset"
                     >
                       Add Evaluation
                     </v-btn>
@@ -80,6 +81,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.group"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Group"
                                   color="success"
                                   hide-details
@@ -92,6 +95,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.eval_cycle"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Eval Cycle"
                                   color="success"
                                   hide-details
@@ -104,6 +109,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.max_mark"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Max Mark"
                                   color="success"
                                   hide-details
@@ -173,6 +180,7 @@
 
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
+import Vue from "vue";
 export default {
   name: "EvaluationCompetencies",
   components: {MaterialCard },
@@ -199,16 +207,9 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-        group: false,
-        eval_cycle: false,
-        max_mark: false
-      },
-      defaultItem: {
-        en_name: '',
-        ar_name: '',
-        group: false,
-        eval_cycle: false,
-        max_mark: false
+        group: '0',
+        eval_cycle: '0',
+        max_mark: '0'
       },
       countryId:[],
       allData: []
@@ -237,12 +238,9 @@ export default {
     },
     async save () {
       if(this.$refs.form.validate()) {
-        this.editedItem.group = this.editedItem.group === true ? 1: 0
-        this.editedItem.eval_cycle = this.editedItem.eval_cycle === true ? 1: 0
-        this.editedItem.max_mark = this.editedItem.max_mark === true ? 1: 0
         if (this.editedIndex > -1) {
           let data={
-            path:"/evaluations/"+this.editedItem.id,
+            path:"/evaluation/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -281,7 +279,7 @@ export default {
       this.editedIndex = 2
       // this.editedIndex =this.desserts.indexOf(item)
       // console.log('index',this.desserts.indexOf(item))
-      this.editedItem =item
+      this.editedItem = Vue.util.extend({}, item);
       this.dialog = true
     },
     deleteItem (id) {
@@ -307,6 +305,15 @@ export default {
         this.getList()
       });
     },
+    reset() {
+      this.editedItem.en_name = ''
+      this.editedItem.ar_name = ''
+      this.editedItem.group = '0'
+      this.editedItem.eval_cycle = '0'
+      this.editedItem.max_mark = '0'
+      this.countryId = []
+      this.editedIndex = -1
+    }
 
   },
 }

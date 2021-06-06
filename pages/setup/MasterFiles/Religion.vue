@@ -35,6 +35,7 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
+                      @click="reset"
                     >
                       Add Religion
                     </v-btn>
@@ -137,6 +138,7 @@
 
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
+import Vue from "vue";
 export default {
   name: "Religion",
   components: {MaterialCard },
@@ -195,7 +197,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/religions/"+this.editedItem.id,
+            path:"/religion/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -234,7 +236,7 @@ export default {
       this.editedIndex = 2
       // this.editedIndex =this.desserts.indexOf(item)
       // console.log('index',this.desserts.indexOf(item))
-      this.editedItem =item
+      this.editedItem = Vue.util.extend({}, item);
       this.dialog = true
     },
     deleteItem (id) {
@@ -260,6 +262,12 @@ export default {
         this.getList()
       });
     },
+    reset() {
+      this.editedItem.en_name = ''
+      this.editedItem.ar_name = ''
+      this.countryId = []
+      this.editedIndex = -1
+    }
 
   },
 }

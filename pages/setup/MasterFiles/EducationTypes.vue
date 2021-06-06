@@ -35,6 +35,7 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
+                      @click="reset"
                     >
                       Add Evaluation
                     </v-btn>
@@ -92,6 +93,8 @@
                               >
                                 <v-checkbox
                                   v-model="editedItem.is_sponsored"
+                                  :false-value="0"
+                                  :true-value="1"
                                   label="Is Sponsored"
                                   color="success"
                                   hide-details
@@ -161,6 +164,7 @@
 
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
+import Vue from "vue";
 export default {
   name: "EducationTypes",
   components: {MaterialCard },
@@ -187,13 +191,7 @@ export default {
         en_name: '',
         ar_name: '',
         educ_remark: '',
-        is_sponsored: false,
-      },
-      defaultItem: {
-        en_name: '',
-        ar_name: '',
-        educ_remark: '',
-        is_sponsored: false
+        is_sponsored: '0',
       },
       countryId:[],
       allData: []
@@ -222,10 +220,9 @@ export default {
     },
     async save () {
       if(this.$refs.form.validate()) {
-        this.editedItem.is_sponsored = this.editedItem.is_sponsored === true ? 1: 0
         if (this.editedIndex > -1) {
           let data={
-            path:"/educations/"+this.editedItem.id,
+            path:"/education/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -264,7 +261,7 @@ export default {
       this.editedIndex = 2
       // this.editedIndex =this.desserts.indexOf(item)
       // console.log('index',this.desserts.indexOf(item))
-      this.editedItem =item
+      this.editedItem = Vue.util.extend({}, item);
       this.dialog = true
     },
     deleteItem (id) {
@@ -290,7 +287,14 @@ export default {
         this.getList()
       });
     },
-
+    reset() {
+      this.editedItem.en_name = ''
+      this.editedItem.ar_name = ''
+      this.editedItem.educ_remark = ''
+      this.editedItem.is_sponsored = '0'
+      this.countryId = []
+      this.editedIndex = -1
+    }
   },
 }
 </script>
