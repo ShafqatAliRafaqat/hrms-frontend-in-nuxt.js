@@ -11,18 +11,24 @@
       >
         <MaterialCard
           color="success"
-          title="Currency Types"
+          title="City"
           class="px-5 py-3"
         >
           <v-data-table
             :headers="headers"
-            :items="allData"
+            :items="cityData"
             sort-by="en_name"
           >
             <template v-slot:top>
               <v-toolbar
                 flat
               >
+                <!--                <v-toolbar-title>Country CRUD</v-toolbar-title>-->
+                <!--                <v-divider-->
+                <!--                  class="mx-4"-->
+                <!--                  inset-->
+                <!--                  vertical-->
+                <!--                ></v-divider>-->
                 <v-spacer></v-spacer>
                 <v-dialog
                   v-model="dialog"
@@ -35,9 +41,9 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
-                      @click="reset"
+                      rounded
                     >
-                      Add Currency
+                      Add City
                     </v-btn>
                   </template>
                   <v-card>
@@ -47,50 +53,73 @@
                     <v-card-text>
                       <v-container>
                         <v-form ref="form">
-                          <v-container class="py-0">
-                            <v-row>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="4"
-                              >
-                                <v-text-field
-                                  label="Currency Name in Arabic"
-                                  class="direction"
-                                  v-model="editedItem.ar_name"
-                                  :rules="[ (value) => !!value || 'This  field is required',
-                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="4"
-                              >
-                                <v-text-field
-                                  label="Currency Name in English"
-                                  v-model="editedItem.en_name"
-                                  :rules="[ (value) => !!value || 'This  field is required',
-                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="4"
-                              >
-                                <v-text-field
-                                  label="Exchange Rate"
-                                  type="number"
-                                  v-model="editedItem.exchange_rate"
-                                  :rules="[ (value) => !!value || 'This  field is required',
-                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
-                                ></v-text-field>
-                              </v-col>
-                            </v-row>
-                          </v-container>
-                        </v-form>
+                          <v-row>
 
+                            <v-col
+                              cols="12"
+                              sm="6"
+                              md="6"
+                            >
+                              <v-select
+                                :items="countryData"
+                                v-model="editedItem.country_id"
+                                label="Country"
+                                required
+                                :rules="[ (value) => !!value || 'This  field is required',]"
+                              ></v-select>
+                            </v-col>
+                            <v-col
+                              cols="12"
+                              sm="6"
+                              md="6"
+                            >
+                              <v-text-field
+                                v-model="editedItem.en_name"
+                                label="CityName(EN)"
+                                required
+                                :rules="[ (value) => !!value || 'This  field is required']"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col
+                              cols="12"
+                              sm="6"
+                              md="6"
+                            >
+                              <v-text-field
+                                v-model="editedItem.ar_name"
+                                label="City Name(AR)"
+                                required
+                                :rules="[ (value) => !!value || 'This  field is required']"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col
+                              cols="12"
+                              sm="6"
+                              md="6"
+                            >
+                              <v-text-field
+                                v-model="editedItem.region"
+                                label="Region"
+                                required
+                                :rules="[ (value) => !!value || 'This  field is required']"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col
+                              cols="12"
+                              sm="6"
+                              md="6"
+                            >
+                              <v-text-field
+                                v-model="editedItem.ticket_value"
+                                label="Ticket Value"
+                                required
+                                :rules="[ (value) => !!value || 'This  field is required',
+                                (value) => (value && value <= 5) || 'maximum value is 5',]"
+                              ></v-text-field>
+                            </v-col>
+
+                          </v-row>
+                        </v-form>
                       </v-container>
                     </v-card-text>
 
@@ -100,6 +129,7 @@
                         color="blue darken-1"
                         text
                         @click="dialog=false"
+                        rounded
                       >
                         Cancel
                       </v-btn>
@@ -107,6 +137,7 @@
                         color="blue darken-1"
                         text
                         @click="save"
+                        rounded
                       >
                         Save
                       </v-btn>
@@ -115,7 +146,7 @@
                 </v-dialog>
                 <v-dialog v-model="dialogDelete" max-width="390px" persistent>
                   <v-card>
-                    <v-card-title class="headline">Are you sure you want to delete this record?</v-card-title>
+                    <v-card-title class="headline">Are you sure you want to delete this country?</v-card-title>
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn color="blue darken-1" text @click="dialogDelete=false">Cancel</v-btn>
@@ -142,20 +173,21 @@
                 mdi-delete
               </v-icon>
             </template>
+
           </v-data-table>
         </MaterialCard>
       </v-col>
     </v-row>
   </v-container>
+
 </template>
 
 <script>
-import MaterialCard from "../../../components/base/MaterialCard";
-import Vue from "vue";
+import MaterialCard from "~/components/base/MaterialCard";
 export default {
-  name: "CurrencyTypes",
-  components: {MaterialCard },
+  name: "City",
   middleware: ["auth"],
+  components: {MaterialCard },
   data(){
     return{
       dialog: false,
@@ -168,7 +200,9 @@ export default {
         },
         { text: 'En Name', value: 'en_name' },
         { text: 'Ar Name', value: 'ar_name' },
-        { text: 'Exchange Rate', value: 'exchange_rate' },
+        { text: 'Region', value: 'region' },
+        { text: 'Ticket Value', value: 'ticket_value' },
+        { text: 'Country', value: 'country_id.en_name' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -176,56 +210,94 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-        exchange_rate: ''
+        region: '',
+        ticket_value: '',
+        country_id:'',
+
       },
-      countryId:[],
-      allData: []
-    }
-  },
-  computed: {
-    formTitle () {
-      return this.editedIndex === -1 ? 'New Currency' : 'Edit Currency'
+      defaultItem: {
+        en_name: '',
+        ar_name: '',
+        region: '',
+        ticket_value: '',
+        country_id: '',
+      },
+      cityData:[],
+      cityId:[]
     }
   },
   created () {
-    this.getList()
+    this.cityList()
   },
-
+  computed: {
+    formTitle () {
+      return this.editedIndex === -1 ? 'New City' : 'Edit City'
+    },
+    countryData(){
+      let countries= this.$store.state.countries
+      let arr = []
+      countries.forEach(function (data) {
+        arr.push({
+          'value':data.id,
+          'text': data.en_name,
+        })
+      })
+      return arr
+    },
+  },
   methods: {
-    getList(){
-      let data = { path: "/currencies" }
+    cityList(){
+      let data={
+        path:"/cities",
+      }
       this.$store.dispatch('list',data).then(response => {
-        this.allData = response.data.data
+        console.log('city list',response.data.data)
+        this.cityData=response.data.data
         this.$store.commit("SHOW_LOADER", false);
         this.$store.commit("SHOW_SNACKBAR", {
           snackbar: true,
           color: "green",
           message: response.data.message
         });
+
       });
+    },
+    editItem (item) {
+      this.editedIndex = 2
+      // console.log('index',item.country_id.id)
+      this.editedItem =item
+      // this.editedItem.country_id=item.country_id.id
+      // console.log('item',this.editedItem)
+
+      this.dialog = true
     },
     async save () {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/currency/"+this.editedItem.id,
+            path:"/city/"+this.editedItem.id,
             data:this.editedItem
           }
+          data.data.country_id=data.data.country_id.id
+
+          console.log(' data',data)
           this.dialog = false
           this.$store.commit("SHOW_LOADER", true);
           await this.$store.dispatch("update", data).then(response => {
+            console.log('edit form res',response)
+
             this.$store.commit("SHOW_LOADER", false);
             this.$store.commit("SHOW_SNACKBAR", {
               snackbar: true,
               color: "green",
               message: response.data.message
             });
-            this.getList()
+            this.cityList()
           });
         }
         else {
           let data={
-            path:"/currencies",
+            path:"/cities",
             data:this.editedItem
           }
           this.dialog = false
@@ -237,21 +309,16 @@ export default {
               color: "green",
               message: response.data.message
             });
-            this.getList()
+            this.cityList()
           });
         }
       }
 
     },
-    editItem (item) {
-      this.editedIndex = 2
-      // this.editedIndex =this.desserts.indexOf(item)
-      // console.log('index',this.desserts.indexOf(item))
-      this.editedItem = Vue.util.extend({}, item);
-      this.dialog = true
-    },
+
     deleteItem (id) {
-      this.countryId[0]=id
+      console.log('idss',id)
+      this.cityId[0]=id
       // this.editedIndex = this.desserts.indexOf(item)
       // this.editedItem = Object.assign({}, item)
       this.dialogDelete = true
@@ -260,8 +327,8 @@ export default {
       this.dialogDelete = false
       this.$store.commit("SHOW_LOADER", true);
       let data = {
-        'ids': this.countryId,
-        'path' : '/delete_currencies'
+        'ids': this.cityId,
+        'path' : '/delete_cities'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -270,21 +337,17 @@ export default {
           color: "green",
           message: response.data.message
         });
-        this.getList()
+        this.cityList()
       });
     },
-    reset() {
-      this.editedItem.en_name = ''
-      this.editedItem.ar_name = ''
-      this.editedItem.exchange_rate = ''
-      this.countryId = []
-      this.editedIndex = -1
-    }
 
   },
 }
 </script>
 
 <style scoped>
-
+.heading {
+  font-size: 30px !important;
+  color: white !important;
+}
 </style>

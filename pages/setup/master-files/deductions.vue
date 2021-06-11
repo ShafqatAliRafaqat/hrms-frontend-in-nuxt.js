@@ -36,6 +36,7 @@
                       v-bind="attrs"
                       v-on="on"
                       @click="reset"
+                      rounded
                     >
                       Add Deduction
                     </v-btn>
@@ -183,6 +184,7 @@
                         color="blue darken-1"
                         text
                         @click="dialog=false"
+                        rounded
                       >
                         Cancel
                       </v-btn>
@@ -190,6 +192,7 @@
                         color="blue darken-1"
                         text
                         @click="save"
+                        rounded
                       >
                         Save
                       </v-btn>

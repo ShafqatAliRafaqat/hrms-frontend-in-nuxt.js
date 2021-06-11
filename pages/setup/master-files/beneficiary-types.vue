@@ -1,4 +1,5 @@
 <template>
+
   <v-container
     id="user-profile"
     fluid
@@ -11,7 +12,7 @@
       >
         <MaterialCard
           color="success"
-          title="Document Types"
+          title="Beneficiary Types"
           class="px-5 py-3"
         >
           <v-data-table
@@ -36,8 +37,9 @@
                       v-bind="attrs"
                       v-on="on"
                       @click="reset"
+                      rounded
                     >
-                      Add Document Type
+                      Add Beneficiary Type
                     </v-btn>
                   </template>
                   <v-card>
@@ -55,7 +57,7 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Document Types in Arabic"
+                                  label="Beneficiary Type in Arabic"
                                   class="direction"
                                   v-model="editedItem.ar_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
@@ -68,7 +70,7 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Document Types in English"
+                                  label="Beneficiary Type in English"
                                   v-model="editedItem.en_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
                                 (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
@@ -79,23 +81,11 @@
                                 sm="6"
                                 md="6"
                               >
-                                <v-text-field
-                                  label="Exp Date"
-                                  type="date"
-                                  v-model="editedItem.exp_date"
-                                  :rules="[ (value) => !!value || 'This  field is required']"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
                                 <v-checkbox
-                                  v-model="editedItem.hijriflag"
+                                  v-model="editedItem.parentbenefit"
                                   :false-value="0"
                                   :true-value="1"
-                                  label="Hijri Flag"
+                                  label="Parent Benefit"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -106,10 +96,10 @@
                                 md="6"
                               >
                                 <v-checkbox
-                                  v-model="editedItem.co_flag"
+                                  v-model="editedItem.finalsetflag"
                                   :false-value="0"
                                   :true-value="1"
-                                  label="Co Flag"
+                                  label="Final set Flag"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -120,10 +110,10 @@
                                 md="6"
                               >
                                 <v-checkbox
-                                  v-model="editedItem.substitution"
+                                  v-model="editedItem.moneyvalueflag"
                                   :false-value="0"
                                   :true-value="1"
-                                  label="Substitution"
+                                  label="Money Value Flag"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -134,10 +124,122 @@
                                 md="6"
                               >
                                 <v-checkbox
-                                  v-model="editedItem.renew_flag"
+                                  v-model="editedItem.holidayflag"
                                   :false-value="0"
                                   :true-value="1"
-                                  label="Renew Flag"
+                                  label="Holiday Flag"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.printable"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Printable"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.modifyflag"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Modify Flag"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.is_active"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Is Active"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.credit_glid"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Credit Glid"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.showinreport"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Show in Report"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.mulfactor"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="mulfactor"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.percent_frsalary"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Percent for Salary"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.mb"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="mb"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -154,7 +256,8 @@
                       <v-btn
                         color="blue darken-1"
                         text
-                        @click="dialog = false"
+                        @click="dialog=false"
+                        rounded
                       >
                         Cancel
                       </v-btn>
@@ -162,6 +265,7 @@
                         color="blue darken-1"
                         text
                         @click="save"
+                        rounded
                       >
                         Save
                       </v-btn>
@@ -208,7 +312,7 @@
 import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
 export default {
-  name: "DocumentTypes",
+  name: "BeneficiaryTypes",
   components: {MaterialCard },
   middleware: ["auth"],
   data(){
@@ -223,11 +327,18 @@ export default {
         },
         { text: 'En Name', value: 'en_name' },
         { text: 'Ar Name', value: 'ar_name' },
-        { text: 'Exp Date', value: 'exp_date' },
-        { text: 'Hijri Flag', value: 'hijriflag' },
-        { text: 'Co Flag', value: 'co_flag' },
-        { text: 'Substitution', value: 'substitution' },
-        { text: 'Renew Flag', value: 'renew_flag' },
+        { text: 'Parent Benefit', value: 'parentbenefit' },
+        { text: 'Final Set Flag', value: 'finalsetflag' },
+        { text: 'Money Value Flag', value: 'moneyvalueflag' },
+        { text: 'Holiday Flag', value: 'holidayflag' },
+        { text: 'Printable', value: 'printable' },
+        { text: 'Modify Flag', value: 'modifyflag' },
+        { text: 'Is Active', value: 'is_active' },
+        { text: 'Credit Glid', value: 'credit_glid' },
+        { text: 'Show in Report', value: 'showinreport' },
+        { text: 'Mulfactor', value: 'mulfactor' },
+        { text: 'Percent for Salary', value: 'percent_frsalary' },
+        { text: 'mb', value: 'mb' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -235,11 +346,18 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-        exp_date: '',
-        hijriflag: '0',
-        co_flag: '0',
-        substitution: '0',
-        renew_flag: '0',
+        parentbenefit: '0',
+        finalsetflag: '0',
+        moneyvalueflag: '0',
+        holidayflag: '0',
+        printable: '0',
+        modifyflag: '0',
+        is_active: '0',
+        credit_glid: '0',
+        showinreport: '0',
+        mulfactor: '0',
+        percent_frsalary: '0',
+        mb: '0',
       },
       countryId:[],
       allData: []
@@ -247,7 +365,7 @@ export default {
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Document Type' : 'Edit Document Type'
+      return this.editedIndex === -1 ? 'New Beneficiary Type' : 'Edit Beneficiary Type'
     }
   },
   created () {
@@ -255,7 +373,7 @@ export default {
   },
   methods: {
     getList(){
-      let data = { path: "/documents" }
+      let data = { path: "/beneficiary_types" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -270,7 +388,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/document/"+this.editedItem.id,
+            path:"/beneficiary_type/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -287,7 +405,7 @@ export default {
         }
         else {
           let data={
-            path:"/documents",
+            path:"/beneficiary_types",
             data:this.editedItem
           }
           this.dialog = false
@@ -323,7 +441,7 @@ export default {
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_documents'
+        'path' : '/delete_beneficiary_types'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -338,11 +456,18 @@ export default {
     reset() {
       this.editedItem.en_name = ''
       this.editedItem.ar_name = ''
-      this.editedItem.exp_date = ''
-      this.editedItem.hijriflag = '0'
-      this.editedItem.co_flag = '0'
-      this.editedItem.substitution = '0'
-      this.editedItem.renew_flag = '0'
+      this.editedItem.parentbenefit = '0'
+      this.editedItem.finalsetflag = '0'
+      this.editedItem.holidayflag = '0'
+      this.editedItem.printable = '0'
+      this.editedItem.modifyflag = '0'
+      this.editedItem.is_active = '0'
+      this.editedItem.credit_glid = '0'
+      this.editedItem.showinreport = '0'
+      this.editedItem.mulfactor = '0'
+      this.editedItem.percent_frsalary = '0'
+      this.editedItem.mb = '0'
+      this.editedItem.moneyvalueflag = '0'
       this.countryId = []
       this.editedIndex = -1
     }

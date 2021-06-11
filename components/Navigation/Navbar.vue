@@ -16,7 +16,9 @@
           </template>
             <v-list-group
               no-action
-              sub-group >
+              sub-group
+              prepend-icon=" "
+            >
               <template v-slot:activator>
                 <v-list-item-content>
                   <v-list-item-title>Company Setup</v-list-item-title>
@@ -45,9 +47,9 @@
                   <v-list-item-title>Banks</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item link to="/setup/CompanySetup/LegalDocuments" >
+              <v-list-item link to="/setup/CompanySetup/department-section" >
                 <v-list-item-content >
-                  <v-list-item-title>Legal Documents</v-list-item-title>
+                  <v-list-item-title>Department Section</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item link to="/setup/CompanySetup/Notes">
@@ -65,7 +67,7 @@
                   <v-list-item-title>Master Files</v-list-item-title>
                 </v-list-item-content>
               </template>
-              <v-list-item link to="/setup/MasterFiles/CountryNationality">
+              <v-list-item link to="/country-nationality">
                 <v-list-item-content>
                   <v-list-item-title> Country/Nationality</v-list-item-title>
                 </v-list-item-content>

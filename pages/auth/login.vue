@@ -147,7 +147,7 @@ export default {
   background-color: transparent;
   background-image: linear-gradient(
       290deg
-    , $sapphire 0%, $royal_blue 100%);
+    , $sapphire 0%, $primary 100%);
 }
 .left-section{
   transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;

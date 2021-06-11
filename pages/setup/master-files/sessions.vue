@@ -1,4 +1,5 @@
 <template>
+
   <v-container
     id="user-profile"
     fluid
@@ -11,7 +12,7 @@
       >
         <MaterialCard
           color="success"
-          title="Associate Evaluations"
+          title="Sessions"
           class="px-5 py-3"
         >
           <v-data-table
@@ -35,10 +36,9 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
-                      @click="reset"
-                      rounded
+                      @click="reset"  rounded
                     >
-                      Add Associate Evaluation
+                      Add Session
                     </v-btn>
                   </template>
                   <v-card>
@@ -55,67 +55,12 @@
                                 sm="6"
                                 md="6"
                               >
-                                <v-select
-                                  v-model="editedItem.company_id"
-                                  :items="companies"
-                                  :item-text="companies.text"
-                                  :item-value="companies.value"
-                                  label="Select Company"
-                                  :rules="[ (value) => !!value || 'This  field is required',]"
-                                ></v-select>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-select
-                                  v-model="editedItem.designation_id"
-                                  :items="designations"
-                                  :item-text="designations.text"
-                                  :item-value="designations.value"
-                                  label="Select designation"
-                                  :rules="[ (value) => !!value || 'This  field is required',]"
-                                ></v-select>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-select
-                                  v-model="editedItem.evaluation_id"
-                                  :items="evaluations"
-                                  :item-text="evaluations.text"
-                                  :item-value="evaluations.value"
-                                  label="Select Evaluation"
-                                  :rules="[ (value) => !!value || 'This  field is required',]"
-                                ></v-select>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-select
-                                  v-model="editedItem.branch_id"
-                                  :items="branches"
-                                  :item-text="branches.text"
-                                  :item-value="branches.value"
-                                  label="Select branch"
-                                  :rules="[ (value) => !!value || 'This  field is required',]"
-                                ></v-select>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
                                 <v-text-field
-                                  label="Max Mark"
-                                  v-model="editedItem.max_mark"
+                                  label="Competence Name in Arabic"
+                                  class="direction"
+                                  v-model="editedItem.ar_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
-                                (value) => (value && value.length <= 200) || 'maximum 200 characters',]"
+                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
                                 ></v-text-field>
                               </v-col>
                               <v-col
@@ -124,11 +69,58 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Status"
-                                  type="number"
-                                  v-model="editedItem.status"
+                                  label="Competence Name in English"
+                                  v-model="editedItem.en_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
-                                (value) => (value && value.length <= 20) || 'maximum 2 characters',]"
+                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="Begin"
+                                  v-model="editedItem.begin"
+                                  type="time"
+                                  :rules="[ (value) => !!value || 'This  field is required']"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="Cin"
+                                  v-model="editedItem.cin"
+                                  type="time"
+                                  :rules="[ (value) => !!value || 'This  field is required']"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="Cout"
+                                  v-model="editedItem.cout"
+                                  type="time"
+                                  :rules="[ (value) => !!value || 'This  field is required']"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="End"
+                                  v-model="editedItem.end"
+                                  type="time"
+                                  :rules="[ (value) => !!value || 'This  field is required']"
                                 ></v-text-field>
                               </v-col>
                             </v-row>
@@ -143,8 +135,7 @@
                       <v-btn
                         color="blue darken-1"
                         text
-                        @click="dialog = false"
-                        rounded
+                        @click="dialog=false"
                       >
                         Cancel
                       </v-btn>
@@ -152,7 +143,6 @@
                         color="blue darken-1"
                         text
                         @click="save"
-                        rounded
                       >
                         Save
                       </v-btn>
@@ -197,12 +187,12 @@
 </template>
 
 <script>
-import MaterialCard from "../../components/base/MaterialCard";
+import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
 export default {
-  name: "associate-evaluation",
-  components: {MaterialCard },
+  name: "Sessions",
   middleware: ["auth"],
+  components: {MaterialCard },
   data(){
     return{
       dialog: false,
@@ -213,95 +203,39 @@ export default {
           align: 'start',
           value: 'id',
         },
-        { text: 'Max Mark', value: 'max_mark' },
-        { text: 'Status', value: 'status' },
+        { text: 'En Name', value: 'en_name' },
+        { text: 'Ar Name', value: 'ar_name' },
+        { text: 'Begin', value: 'begin' },
+        { text: 'Cin', value: 'cin' },
+        { text: 'Cout', value: 'cout' },
+        { text: 'End', value: 'end' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        company_id: '',
-        designation_id: '',
-        evaluation_id: '',
-        branch_id: '',
-        max_mark: '',
-        status: '',
+        en_name: '',
+        ar_name: '',
+        begin: '',
+        cin: '',
+        cout: '',
+        end: '',
       },
       countryId:[],
-      allData: [],
-      companies: [],
-      designations: [],
-      evaluations: [],
-      branches: [],
+      allData: []
     }
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Associate Evaluation' : 'Edit Associate Evaluation'
+      return this.editedIndex === -1 ? 'New Session' : 'Edit Session'
     }
   },
   created () {
-    this.getCompanies()
-    this.getDesignations()
-    this.getEvaluations()
-    this.getBranches()
     this.getList()
   },
   methods: {
-    getCompanies () {
-      let arr = []
-      let data = { path: "/companies" }
-      this.$store.dispatch('list',data).then(response => {
-        response.data.data.forEach(data => {
-          arr.push({
-            text : data.en_name +' '+ data.ar_name,
-            value: data.id
-          })
-        })
-        this.companies = arr
-      })
-    },
-    getDesignations () {
-      let arr = []
-      let data = { path: "/designations" }
-      this.$store.dispatch('list',data).then(response => {
-        response.data.data.forEach(data => {
-          arr.push({
-            text : data.en_name +' '+ data.ar_name,
-            value: data.id
-          })
-        })
-        this.designations = arr
-      })
-    },
-    getEvaluations () {
-      let arr = []
-      let data = { path: "/evaluation_types" }
-      this.$store.dispatch('list',data).then(response => {
-        response.data.data.forEach(data => {
-          arr.push({
-            text : data.en_name +' '+ data.ar_name,
-            value: data.id
-          })
-        })
-        this.evaluations = arr
-      })
-    },
-    getBranches () {
-      let arr = []
-      let data = { path: "/company_branches" }
-      this.$store.dispatch('list',data).then(response => {
-        response.data.data.forEach(data => {
-          arr.push({
-            text : data.en_name +' '+ data.ar_name,
-            value: data.id
-          })
-        })
-        this.branches = arr
-      })
-    },
     getList(){
-      let data = { path: "/evaluation_posts" }
+      let data = { path: "/sessions" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -316,7 +250,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/evaluation_post/"+this.editedItem.id,
+            path:"/session/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -329,11 +263,14 @@ export default {
               message: response.data.message
             });
             this.getList()
-          });
+          }).catch(error => {
+              this.$store.commit("SHOW_LOADER", false);
+              this.$store.commit('SHOW_SNACKBAR', {snackbar:true,color:'pink', message:error.message})
+            })
         }
         else {
           let data={
-            path:"/evaluation_posts",
+            path:"/sessions",
             data:this.editedItem
           }
           this.dialog = false
@@ -356,10 +293,6 @@ export default {
       // this.editedIndex =this.desserts.indexOf(item)
       // console.log('index',this.desserts.indexOf(item))
       this.editedItem = Vue.util.extend({}, item);
-      this.editedItem.company_id = item.company_id.id
-      this.editedItem.designation_id = item.designation_id.id
-      this.editedItem.evaluation_id = item.evaluation_id.id
-      this.editedItem.branch_id = item.branch_id.id
       this.dialog = true
     },
     deleteItem (id) {
@@ -373,7 +306,7 @@ export default {
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_evaluation_posts'
+        'path' : '/delete_sessions'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -386,16 +319,16 @@ export default {
       });
     },
     reset() {
-      this.editedItem.max_mark = ''
-      this.editedItem.status = ''
-      this.editedItem.company_id = ''
-      this.editedItem.designation_id = ''
-      this.editedItem.evaluation_id = ''
-      this.editedItem.branch_id = ''
+      this.editedItem.en_name = ''
+      this.editedItem.ar_name = ''
+      this.editedItem.begin = ''
+      this.editedItem.cin = ''
+      this.editedItem.cout = ''
+      this.editedItem.end = ''
       this.countryId = []
       this.editedIndex = -1
     }
-  }
+  },
 }
 </script>
 

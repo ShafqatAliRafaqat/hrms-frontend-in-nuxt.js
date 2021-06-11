@@ -19,11 +19,11 @@
         :class="{
           'pa-7': !$slots.image
         }"
-        :color="color"
+
         :max-height="icon ? 90 : undefined"
         :width="icon ? 'auto' : '100%'"
         elevation="6"
-        class="text-start v-card--material__heading mb-n6"
+        class="text-start v-card--material__heading mb-n6 custom-card"
         dark
       >
         <slot
@@ -39,7 +39,6 @@
         <div
           v-else-if="title && !icon"
           class="display-1 font-weight-light"
-          style="font-size: 25px !important;"
           v-text="title"
         />
 
@@ -98,7 +97,7 @@
       },
       color: {
         type: String,
-        default: 'success',
+        default: 'primary',
       },
       icon: {
         type: String,
@@ -146,4 +145,9 @@
       top: -40px
       transition: .3s ease
       z-index: 1
+  .custom-card
+   border-radius: 15px
+   background-color: #1976d2 !important
+   border-color: #1976d2 !important
+
 </style>

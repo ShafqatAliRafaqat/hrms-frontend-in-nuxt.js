@@ -35,7 +35,7 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
-                      @click="reset"
+                      @click="reset"  rounded
                     >
                       Add Sponsor
                     </v-btn>

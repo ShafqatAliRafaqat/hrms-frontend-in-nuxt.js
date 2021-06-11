@@ -1,5 +1,4 @@
 <template>
-
   <v-container
     id="user-profile"
     fluid
@@ -12,7 +11,7 @@
       >
         <MaterialCard
           color="success"
-          title="Cost Centers"
+          title="Company Info"
           class="px-5 py-3"
         >
           <v-data-table
@@ -37,8 +36,9 @@
                       v-bind="attrs"
                       v-on="on"
                       @click="reset"
+                      rounded
                     >
-                      Add Cost Center
+                      Add Company Info
                     </v-btn>
                   </template>
                   <v-card>
@@ -56,7 +56,7 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Competence Name in Arabic"
+                                  label="Name in Arabic"
                                   class="direction"
                                   v-model="editedItem.ar_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
@@ -69,7 +69,7 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Competence Name in English"
+                                  label="Name in English"
                                   v-model="editedItem.en_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
                                 (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
@@ -80,56 +80,85 @@
                                 sm="6"
                                 md="6"
                               >
-                                <v-checkbox
-                                  v-model="editedItem.is_active"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="Is Active"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
+                                <v-text-field
+                                  label="Register Name in English"
+                                  v-model="editedItem.en_register_name"
+                                  :rules="[ (value) => !!value || 'This  field is required',
+                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
+                                ></v-text-field>
                               </v-col>
                               <v-col
                                 cols="12"
                                 sm="6"
                                 md="6"
                               >
-                                <v-checkbox
-                                  v-model="editedItem.storecc"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="Store cc"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
+                                <v-text-field
+                                  label="Register Name in Arabic"
+                                  v-model="editedItem.er_register_name"
+                                  :rules="[ (value) => !!value || 'This  field is required',
+                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
+                                ></v-text-field>
                               </v-col>
                               <v-col
                                 cols="12"
                                 sm="6"
                                 md="6"
                               >
-                                <v-checkbox
-                                  v-model="editedItem.status"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="Status"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
+                                <v-text-field
+                                  label="Incorporation Date Hijri"
+                                  type="number"
+                                  v-model="editedItem.incorporation_date_hijri"
+                                  :rules="[ (value) => !!value || 'This  field is required',
+                                (value) => (value && value.length <= 20) || 'maximum 20 characters',]"
+                                ></v-text-field>
                               </v-col>
                               <v-col
                                 cols="12"
                                 sm="6"
                                 md="6"
                               >
-                                <v-checkbox
-                                  v-model="editedItem.update_status"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="Update Status"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
+                                <v-text-field
+                                  label="Incorporation Date"
+                                  type="date"
+                                  v-model="editedItem.incorporation_date"
+                                  :rules="[ (value) => !!value || 'This  field is required']"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="En type of business"
+                                  v-model="editedItem.en_type_of_business"
+                                  :rules="[ (value) => !!value || 'This  field is required',
+                                (value) => (value && value.length <= 20) || 'maximum 20 characters',]"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="Ar type of business"
+                                  v-model="editedItem.ar_type_of_business"
+                                  :rules="[ (value) => !!value || 'This  field is required',
+                                (value) => (value && value.length <= 20) || 'maximum 20 characters',]"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="no_br"
+                                  v-model="editedItem.no_br"
+                                  :rules="[ (value) => !!value || 'This  field is required',
+                                (value) => (value && value.length <= 10) || 'maximum 6 characters',]"
+                                ></v-text-field>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -143,7 +172,8 @@
                       <v-btn
                         color="blue darken-1"
                         text
-                        @click="dialog=false"
+                        @click="dialog = false"
+                        rounded
                       >
                         Cancel
                       </v-btn>
@@ -151,6 +181,7 @@
                         color="blue darken-1"
                         text
                         @click="save"
+                        rounded
                       >
                         Save
                       </v-btn>
@@ -197,7 +228,7 @@
 import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
 export default {
-  name: "CostCenters",
+  name: "CompanyInfo",
   middleware: ["auth"],
   components: {MaterialCard },
   data(){
@@ -212,10 +243,13 @@ export default {
         },
         { text: 'En Name', value: 'en_name' },
         { text: 'Ar Name', value: 'ar_name' },
-        { text: 'Is Active', value: 'is_active' },
-        { text: 'Store cc', value: 'storecc' },
-        { text: 'Status', value: 'status' },
-        { text: 'Update Status', value: 'update_status' },
+        { text: 'En Register Name', value: 'en_register_name' },
+        { text: 'Ar Register Name', value: 'er_register_name' },
+        { text: 'Incorporation Date', value: 'incorporation_date' },
+        { text: 'Incorporation Date Hijri', value: 'incorporation_date_hijri' },
+        { text: 'En Type of Business', value: 'en_type_of_business' },
+        { text: 'Ar Type of Business', value: 'ar_type_of_business' },
+        { text: 'No Br', value: 'no_br' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -223,10 +257,13 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-        is_active: '0',
-        storecc: '0',
-        status: '0',
-        update_status: '0',
+        en_register_name: '',
+        er_register_name: '',
+        incorporation_date: '',
+        incorporation_date_hijri: '',
+        en_type_of_business: '',
+        ar_type_of_business: '',
+        no_br: '',
       },
       countryId:[],
       allData: []
@@ -234,7 +271,7 @@ export default {
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Cost Center' : 'Edit Cost Center'
+      return this.editedIndex === -1 ? 'New Company Info' : 'Edit Company Info'
     }
   },
   created () {
@@ -242,7 +279,7 @@ export default {
   },
   methods: {
     getList(){
-      let data = { path: "/cost_centers" }
+      let data = { path: "/companies" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -257,7 +294,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/cost_center/"+this.editedItem.id,
+            path:"/company/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -274,7 +311,7 @@ export default {
         }
         else {
           let data={
-            path:"/cost_centers",
+            path:"/companies",
             data:this.editedItem
           }
           this.dialog = false
@@ -310,7 +347,7 @@ export default {
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_cost_centers'
+        'path' : '/delete_companies'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -325,17 +362,23 @@ export default {
     reset() {
       this.editedItem.en_name = ''
       this.editedItem.ar_name = ''
-      this.editedItem.is_active = '0'
-      this.editedItem.storecc = '0'
-      this.editedItem.status = '0'
-      this.editedItem.update_status = '0'
+      this.editedItem.en_register_name = ''
+      this.editedItem.er_register_name = ''
+      this.editedItem.incorporation_date = ''
+      this.editedItem.incorporation_date_hijri = ''
+      this.editedItem.en_type_of_business = ''
+      this.editedItem.ar_type_of_business = ''
+      this.editedItem.no_br = ''
       this.countryId = []
       this.editedIndex = -1
     }
   },
+
 }
 </script>
 
 <style scoped>
-
+.direction {
+  direction: rtl;
+}
 </style>

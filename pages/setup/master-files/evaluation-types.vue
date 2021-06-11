@@ -12,7 +12,7 @@
       >
         <MaterialCard
           color="success"
-          title="Positions/Designations"
+          title="Evaluation Types"
           class="px-5 py-3"
         >
           <v-data-table
@@ -36,9 +36,9 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
-                      @click="reset"
+                      @click="reset"  rounded
                     >
-                      Add Position
+                      Add Evaluation
                     </v-btn>
                   </template>
                   <v-card>
@@ -56,7 +56,7 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Positions Types in Arabic"
+                                  label="Evaluation Types in Arabic"
                                   class="direction"
                                   v-model="editedItem.ar_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
@@ -69,39 +69,11 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Positions Types in English"
+                                  label="Evaluation Types in English"
                                   v-model="editedItem.en_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
                                 (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
                                 ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-checkbox
-                                  v-model="editedItem.level"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="Level"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-checkbox
-                                  v-model="editedItem.is_active"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="Is Active"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -163,15 +135,16 @@
       </v-col>
     </v-row>
   </v-container>
+
 </template>
 
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
 export default {
-  name: "Positions",
-  middleware: ["auth"],
+  name: "EvaluationTypes",
   components: {MaterialCard },
+  middleware: ["auth"],
   data(){
     return{
       dialog: false,
@@ -184,8 +157,6 @@ export default {
         },
         { text: 'En Name', value: 'en_name' },
         { text: 'Ar Name', value: 'ar_name' },
-        { text: 'Level', value: 'level' },
-        { text: 'Is Active', value: 'is_active' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -193,8 +164,6 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-        is_active: '0',
-        level: '0'
       },
       countryId:[],
       allData: []
@@ -202,16 +171,15 @@ export default {
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Position' : 'Edit Position'
+      return this.editedIndex === -1 ? 'New Evaluation Type' : 'Edit Evaluation Type'
     }
   },
   created () {
     this.getList()
   },
-
   methods: {
     getList(){
-      let data = { path: "/designations" }
+      let data = { path: "/evaluation_types" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -226,7 +194,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/designation/"+this.editedItem.id,
+            path:"/evaluation_type/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -243,7 +211,7 @@ export default {
         }
         else {
           let data={
-            path:"/designations",
+            path:"/evaluation_types",
             data:this.editedItem
           }
           this.dialog = false
@@ -279,7 +247,7 @@ export default {
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_designations'
+        'path' : '/delete_evaluation_types'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -294,8 +262,6 @@ export default {
     reset() {
       this.editedItem.en_name = ''
       this.editedItem.ar_name = ''
-      this.editedItem.is_active = '0'
-      this.editedItem.level = '0'
       this.countryId = []
       this.editedIndex = -1
     }

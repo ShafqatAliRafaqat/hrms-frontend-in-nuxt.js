@@ -8,7 +8,7 @@
         <v-card-title class="headline">
           {{$t('welcome')}} to the {{$t('hr_system')}}
         </v-card-title>
-        {{ $store.state.user }}
+
 
       </v-card>
     </v-col>

@@ -41,6 +41,7 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
+                      rounded
                     >
                       Add Country
                     </v-btn>

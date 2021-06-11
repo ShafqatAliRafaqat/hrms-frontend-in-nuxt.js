@@ -1,5 +1,4 @@
 <template>
-
   <v-container
     id="user-profile"
     fluid
@@ -12,7 +11,7 @@
       >
         <MaterialCard
           color="success"
-          title="Evaluation Types"
+          title="Education Types"
           class="px-5 py-3"
         >
           <v-data-table
@@ -37,6 +36,7 @@
                       v-bind="attrs"
                       v-on="on"
                       @click="reset"
+                      rounded
                     >
                       Add Evaluation
                     </v-btn>
@@ -56,7 +56,7 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Evaluation Types in Arabic"
+                                  label="Education Types in Arabic"
                                   class="direction"
                                   v-model="editedItem.ar_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
@@ -69,11 +69,37 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Evaluation Types in English"
+                                  label="Education Types in English"
                                   v-model="editedItem.en_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
                                 (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
                                 ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="Educ Remark"
+                                  v-model="editedItem.educ_remark"
+                                  :rules="[ (value) => !!value || 'This  field is required',
+                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.is_sponsored"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Is Sponsored"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -135,14 +161,13 @@
       </v-col>
     </v-row>
   </v-container>
-
 </template>
 
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
 export default {
-  name: "EvaluationTypes",
+  name: "EducationTypes",
   components: {MaterialCard },
   middleware: ["auth"],
   data(){
@@ -157,6 +182,8 @@ export default {
         },
         { text: 'En Name', value: 'en_name' },
         { text: 'Ar Name', value: 'ar_name' },
+        { text: 'Educ Remark', value: 'educ_remark' },
+        { text: 'Is Sponsored', value: 'is_sponsored' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -164,6 +191,8 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
+        educ_remark: '',
+        is_sponsored: '0',
       },
       countryId:[],
       allData: []
@@ -171,7 +200,7 @@ export default {
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Evaluation Type' : 'Edit Evaluation Type'
+      return this.editedIndex === -1 ? 'New Education Type' : 'Edit Education Type'
     }
   },
   created () {
@@ -179,7 +208,7 @@ export default {
   },
   methods: {
     getList(){
-      let data = { path: "/evaluation_types" }
+      let data = { path: "/educations" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -194,7 +223,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/evaluation_type/"+this.editedItem.id,
+            path:"/education/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -211,7 +240,7 @@ export default {
         }
         else {
           let data={
-            path:"/evaluation_types",
+            path:"/educations",
             data:this.editedItem
           }
           this.dialog = false
@@ -247,7 +276,7 @@ export default {
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_evaluation_types'
+        'path' : '/delete_educations'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -262,6 +291,8 @@ export default {
     reset() {
       this.editedItem.en_name = ''
       this.editedItem.ar_name = ''
+      this.editedItem.educ_remark = ''
+      this.editedItem.is_sponsored = '0'
       this.countryId = []
       this.editedIndex = -1
     }

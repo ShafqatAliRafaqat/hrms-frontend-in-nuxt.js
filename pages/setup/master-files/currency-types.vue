@@ -1,5 +1,4 @@
 <template>
-
   <v-container
     id="user-profile"
     fluid
@@ -12,7 +11,7 @@
       >
         <MaterialCard
           color="success"
-          title="Sessions"
+          title="Currency Types"
           class="px-5 py-3"
         >
           <v-data-table
@@ -37,8 +36,9 @@
                       v-bind="attrs"
                       v-on="on"
                       @click="reset"
+                      rounded
                     >
-                      Add Session
+                      Add Currency
                     </v-btn>
                   </template>
                   <v-card>
@@ -53,10 +53,10 @@
                               <v-col
                                 cols="12"
                                 sm="6"
-                                md="6"
+                                md="4"
                               >
                                 <v-text-field
-                                  label="Competence Name in Arabic"
+                                  label="Currency Name in Arabic"
                                   class="direction"
                                   v-model="editedItem.ar_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
@@ -66,10 +66,10 @@
                               <v-col
                                 cols="12"
                                 sm="6"
-                                md="6"
+                                md="4"
                               >
                                 <v-text-field
-                                  label="Competence Name in English"
+                                  label="Currency Name in English"
                                   v-model="editedItem.en_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
                                 (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
@@ -78,49 +78,14 @@
                               <v-col
                                 cols="12"
                                 sm="6"
-                                md="6"
+                                md="4"
                               >
                                 <v-text-field
-                                  label="Begin"
-                                  v-model="editedItem.begin"
-                                  type="time"
-                                  :rules="[ (value) => !!value || 'This  field is required']"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-text-field
-                                  label="Cin"
-                                  v-model="editedItem.cin"
-                                  type="time"
-                                  :rules="[ (value) => !!value || 'This  field is required']"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-text-field
-                                  label="Cout"
-                                  v-model="editedItem.cout"
-                                  type="time"
-                                  :rules="[ (value) => !!value || 'This  field is required']"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-text-field
-                                  label="End"
-                                  v-model="editedItem.end"
-                                  type="time"
-                                  :rules="[ (value) => !!value || 'This  field is required']"
+                                  label="Exchange Rate"
+                                  type="number"
+                                  v-model="editedItem.exchange_rate"
+                                  :rules="[ (value) => !!value || 'This  field is required',
+                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
                                 ></v-text-field>
                               </v-col>
                             </v-row>
@@ -136,6 +101,7 @@
                         color="blue darken-1"
                         text
                         @click="dialog=false"
+                        rounded
                       >
                         Cancel
                       </v-btn>
@@ -143,6 +109,7 @@
                         color="blue darken-1"
                         text
                         @click="save"
+                        rounded
                       >
                         Save
                       </v-btn>
@@ -183,16 +150,15 @@
       </v-col>
     </v-row>
   </v-container>
-
 </template>
 
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
 export default {
-  name: "Sessions",
-  middleware: ["auth"],
+  name: "CurrencyTypes",
   components: {MaterialCard },
+  middleware: ["auth"],
   data(){
     return{
       dialog: false,
@@ -205,10 +171,7 @@ export default {
         },
         { text: 'En Name', value: 'en_name' },
         { text: 'Ar Name', value: 'ar_name' },
-        { text: 'Begin', value: 'begin' },
-        { text: 'Cin', value: 'cin' },
-        { text: 'Cout', value: 'cout' },
-        { text: 'End', value: 'end' },
+        { text: 'Exchange Rate', value: 'exchange_rate' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -216,10 +179,7 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-        begin: '',
-        cin: '',
-        cout: '',
-        end: '',
+        exchange_rate: ''
       },
       countryId:[],
       allData: []
@@ -227,15 +187,16 @@ export default {
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Session' : 'Edit Session'
+      return this.editedIndex === -1 ? 'New Currency' : 'Edit Currency'
     }
   },
   created () {
     this.getList()
   },
+
   methods: {
     getList(){
-      let data = { path: "/sessions" }
+      let data = { path: "/currencies" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -250,7 +211,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/session/"+this.editedItem.id,
+            path:"/currency/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -263,14 +224,11 @@ export default {
               message: response.data.message
             });
             this.getList()
-          }).catch(error => {
-              this.$store.commit("SHOW_LOADER", false);
-              this.$store.commit('SHOW_SNACKBAR', {snackbar:true,color:'pink', message:error.message})
-            })
+          });
         }
         else {
           let data={
-            path:"/sessions",
+            path:"/currencies",
             data:this.editedItem
           }
           this.dialog = false
@@ -306,7 +264,7 @@ export default {
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_sessions'
+        'path' : '/delete_currencies'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -321,13 +279,11 @@ export default {
     reset() {
       this.editedItem.en_name = ''
       this.editedItem.ar_name = ''
-      this.editedItem.begin = ''
-      this.editedItem.cin = ''
-      this.editedItem.cout = ''
-      this.editedItem.end = ''
+      this.editedItem.exchange_rate = ''
       this.countryId = []
       this.editedIndex = -1
     }
+
   },
 }
 </script>

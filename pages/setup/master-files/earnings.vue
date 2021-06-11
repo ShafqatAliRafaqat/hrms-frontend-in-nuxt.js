@@ -1,5 +1,4 @@
 <template>
-
   <v-container
     id="user-profile"
     fluid
@@ -12,7 +11,7 @@
       >
         <MaterialCard
           color="success"
-          title="Leave/Vacation Types"
+          title="Earnings"
           class="px-5 py-3"
         >
           <v-data-table
@@ -37,8 +36,9 @@
                       v-bind="attrs"
                       v-on="on"
                       @click="reset"
+                      rounded
                     >
-                      Add Leave Type
+                      Add Earning
                     </v-btn>
                   </template>
                   <v-card>
@@ -56,7 +56,7 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Leave Type in Arabic"
+                                  label="Competence Name in Arabic"
                                   class="direction"
                                   v-model="editedItem.ar_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
@@ -69,7 +69,7 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Leave Type in English"
+                                  label="Competence Name in English"
                                   v-model="editedItem.en_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
                                 (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
@@ -81,9 +81,11 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Duration"
-                                  v-model="editedItem.duration"
-                                  :rules="[ (value) => !!value || 'This  field is required']"
+                                  label="Percentage of Salary"
+                                  type="number"
+                                  v-model="editedItem.percentage_of_salary"
+                                  :rules="[ (value) => !!value || 'This  field is required',
+                                (value) => (value && value.length <= 10) || 'maximum 5 characters',]"
                                 ></v-text-field>
                               </v-col>
                               <v-col
@@ -92,10 +94,10 @@
                                 md="6"
                               >
                                 <v-checkbox
-                                  v-model="editedItem.is_salary"
+                                  v-model="editedItem.w_value"
                                   :false-value="0"
                                   :true-value="1"
-                                  label="Is Salary"
+                                  label="w_value"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -106,10 +108,10 @@
                                 md="6"
                               >
                                 <v-checkbox
-                                  v-model="editedItem.requirevisa"
+                                  v-model="editedItem.is_factor"
                                   :false-value="0"
                                   :true-value="1"
-                                  label="Require Visa"
+                                  label="is_factor"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -120,10 +122,10 @@
                                 md="6"
                               >
                                 <v-checkbox
-                                  v-model="editedItem.withpay"
+                                  v-model="editedItem.is_fixed"
                                   :false-value="0"
                                   :true-value="1"
-                                  label="With Pay"
+                                  label="Is Fixed"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -134,66 +136,10 @@
                                 md="6"
                               >
                                 <v-checkbox
-                                  v-model="editedItem.operator"
+                                  v-model="editedItem.is_mb"
                                   :false-value="0"
                                   :true-value="1"
-                                  label="Operator"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-checkbox
-                                  v-model="editedItem.extra_leavecalc"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="Extra Leave calc"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-checkbox
-                                  v-model="editedItem.is_active"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="Is Active"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-checkbox
-                                  v-model="editedItem.is_settlement"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="Is Settlement"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-checkbox
-                                  v-model="editedItem.request"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="Request"
+                                  label="Is mb"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -258,17 +204,15 @@
       </v-col>
     </v-row>
   </v-container>
-
-
 </template>
 
 <script>
 import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
 export default {
-  name: "LeaveTypes",
-  middleware: ["auth"],
+  name: "Earnings",
   components: {MaterialCard },
+  middleware: ["auth"],
   data(){
     return{
       dialog: false,
@@ -281,15 +225,11 @@ export default {
         },
         { text: 'En Name', value: 'en_name' },
         { text: 'Ar Name', value: 'ar_name' },
-        { text: 'Duration', value: 'duration' },
-        { text: 'Is Salary', value: 'is_salary' },
-        { text: 'Require Visa', value: 'requirevisa' },
-        { text: 'With Pay', value: 'withpay' },
-        { text: 'Operator', value: 'operator' },
-        { text: 'Extra Leave Calc', value: 'extra_leavecalc' },
-        { text: 'Is Active', value: 'is_active' },
-        { text: 'Is Settlement', value: 'is_settlement' },
-        { text: 'request', value: 'request' },
+        { text: 'Percentage of Salary', value: 'percentage_of_salary' },
+        { text: 'w_value', value: 'w_value' },
+        { text: 'Is Factor', value: 'is_factor' },
+        { text: 'Is Fixed', value: 'is_fixed' },
+        { text: 'Is mb', value: 'is_mb' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -297,15 +237,11 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-        duration: '',
-        is_salary: '0',
-        requirevisa: '0',
-        withpay: '0',
-        operator: '0',
-        extra_leavecalc: '0',
-        is_active: '0',
-        is_settlement: '0',
-        request: '0',
+        percentage_of_salary: '',
+        w_value: '0',
+        is_factor: '0',
+        is_fixed: '0',
+        is_mb: '0',
       },
       countryId:[],
       allData: []
@@ -313,7 +249,7 @@ export default {
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Leave/Vacation Type' : 'Edit Leave/Vacation Type'
+      return this.editedIndex === -1 ? 'New Earning' : 'Edit Earning'
     }
   },
   created () {
@@ -321,7 +257,7 @@ export default {
   },
   methods: {
     getList(){
-      let data = { path: "/leaves" }
+      let data = { path: "/earnings" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -336,7 +272,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/leave/"+this.editedItem.id,
+            path:"/earning/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -353,7 +289,7 @@ export default {
         }
         else {
           let data={
-            path:"/leaves",
+            path:"/earnings",
             data:this.editedItem
           }
           this.dialog = false
@@ -389,7 +325,7 @@ export default {
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_leaves'
+        'path' : '/delete_earnings'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -401,22 +337,18 @@ export default {
         this.getList()
       });
     },
+
     reset() {
       this.editedItem.en_name = ''
       this.editedItem.ar_name = ''
-      this.editedItem.duration = ''
-      this.editedItem.is_salary = '0'
-      this.editedItem.requirevisa = '0'
-      this.editedItem.withpay = '0'
-      this.editedItem.operator = '0'
-      this.editedItem.extra_leavecalc = '0'
-      this.editedItem.is_active = '0'
-      this.editedItem.is_settlement = '0'
-      this.editedItem.request = '0'
+      this.editedItem.percentage_of_salary = ''
+      this.editedItem.w_value = '0'
+      this.editedItem.is_factor = '0'
+      this.editedItem.is_fixed = '0'
+      this.editedItem.is_mb = '0'
       this.countryId = []
       this.editedIndex = -1
     }
-
   },
 }
 </script>

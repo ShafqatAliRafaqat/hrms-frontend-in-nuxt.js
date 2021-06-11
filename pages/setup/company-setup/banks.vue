@@ -11,7 +11,7 @@
       >
         <MaterialCard
           color="success"
-          title="Associate Evaluations"
+          title="Banks"
           class="px-5 py-3"
         >
           <v-data-table
@@ -38,7 +38,7 @@
                       @click="reset"
                       rounded
                     >
-                      Add Associate Evaluation
+                      Add Bank
                     </v-btn>
                   </template>
                   <v-card>
@@ -70,11 +70,11 @@
                                 md="6"
                               >
                                 <v-select
-                                  v-model="editedItem.designation_id"
-                                  :items="designations"
-                                  :item-text="designations.text"
-                                  :item-value="designations.value"
-                                  label="Select designation"
+                                  v-model="editedItem.country_id"
+                                  :items="countries"
+                                  :item-text="countries.text"
+                                  :item-value="countries.value"
+                                  label="Select Country"
                                   :rules="[ (value) => !!value || 'This  field is required',]"
                                 ></v-select>
                               </v-col>
@@ -84,11 +84,11 @@
                                 md="6"
                               >
                                 <v-select
-                                  v-model="editedItem.evaluation_id"
-                                  :items="evaluations"
-                                  :item-text="evaluations.text"
-                                  :item-value="evaluations.value"
-                                  label="Select Evaluation"
+                                  v-model="editedItem.city_id"
+                                  :items="cities"
+                                  :item-text="cities.text"
+                                  :item-value="cities.value"
+                                  label="Select City"
                                   :rules="[ (value) => !!value || 'This  field is required',]"
                                 ></v-select>
                               </v-col>
@@ -111,11 +111,26 @@
                                 sm="6"
                                 md="6"
                               >
+                                <v-select
+                                  v-model="editedItem.currency_id"
+                                  :items="currencies"
+                                  :item-text="currencies.text"
+                                  :item-value="currencies.value"
+                                  label="Select currency"
+                                  :rules="[ (value) => !!value || 'This  field is required',]"
+                                ></v-select>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
                                 <v-text-field
-                                  label="Max Mark"
-                                  v-model="editedItem.max_mark"
+                                  label="Name in Arabic"
+                                  class="direction"
+                                  v-model="editedItem.ar_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
-                                (value) => (value && value.length <= 200) || 'maximum 200 characters',]"
+                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
                                 ></v-text-field>
                               </v-col>
                               <v-col
@@ -124,11 +139,117 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Status"
-                                  type="number"
-                                  v-model="editedItem.status"
+                                  label="Name in English"
+                                  v-model="editedItem.en_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
-                                (value) => (value && value.length <= 20) || 'maximum 2 characters',]"
+                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="Account Type"
+                                  v-model="editedItem.account_type"
+                                  :rules="[ (value) => !!value || 'This  field is required',
+                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="Account No"
+                                  type="number"
+                                  v-model="editedItem.account_no"
+                                  :rules="[ (value) => !!value || 'This  field is required',
+                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="Address_1"
+                                  v-model="editedItem.address_1"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="Address_2"
+                                  v-model="editedItem.address_2"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="Address_3"
+                                  v-model="editedItem.address_3"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="Address_4"
+                                  v-model="editedItem.address_4"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="gl_acct_code"
+                                  type="number"
+                                  v-model="editedItem.gl_acct_code"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="bank_code"
+                                  type="number"
+                                  v-model="editedItem.bank_code"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="bank_file"
+                                  v-model="editedItem.bank_file"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="payment_type"
+                                  v-model="editedItem.payment_type"
                                 ></v-text-field>
                               </v-col>
                             </v-row>
@@ -193,14 +314,13 @@
       </v-col>
     </v-row>
   </v-container>
-
 </template>
 
 <script>
-import MaterialCard from "../../components/base/MaterialCard";
+import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
 export default {
-  name: "associate-evaluation",
+  name: "Banks",
   components: {MaterialCard },
   middleware: ["auth"],
   data(){
@@ -213,38 +333,61 @@ export default {
           align: 'start',
           value: 'id',
         },
-        { text: 'Max Mark', value: 'max_mark' },
-        { text: 'Status', value: 'status' },
+        { text: 'En Name', value: 'en_name' },
+        { text: 'Ar Name', value: 'ar_name' },
+        { text: 'Account Type', value: 'account_type' },
+        { text: 'Account No', value: 'account_no' },
+        { text: 'Address_1', value: 'address_1' },
+        { text: 'Address_2', value: 'address_2' },
+        { text: 'Address_3', value: 'address_3' },
+        { text: 'Address_4', value: 'address_4' },
+        { text: 'Gl_acct_code', value: 'gl_acct_code' },
+        { text: 'Bank Code', value: 'bank_code' },
+        { text: 'Bank File', value: 'bank_file' },
+        { text: 'Payment Type', value: 'payment_type' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
       editedIndex: -1,
       editedItem: {
         company_id: '',
-        designation_id: '',
-        evaluation_id: '',
+        country_id: '',
+        city_id: '',
         branch_id: '',
-        max_mark: '',
-        status: '',
+        currency_id: '',
+        en_name: '',
+        ar_name: '',
+        account_type: '',
+        account_no: '',
+        address_1: '',
+        address_2: '',
+        address_3: '',
+        address_4: '',
+        gl_acct_code: '',
+        bank_code: '',
+        bank_file: '',
+        payment_type: '',
       },
       countryId:[],
       allData: [],
       companies: [],
-      designations: [],
-      evaluations: [],
+      countries: [],
+      cities: [],
       branches: [],
+      currencies: [],
     }
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Associate Evaluation' : 'Edit Associate Evaluation'
+      return this.editedIndex === -1 ? 'New Bank' : 'Edit Bank'
     }
   },
   created () {
     this.getCompanies()
-    this.getDesignations()
-    this.getEvaluations()
+    this.getCountries()
+    this.getCities()
     this.getBranches()
+    this.getCurrencies()
     this.getList()
   },
   methods: {
@@ -261,9 +404,9 @@ export default {
         this.companies = arr
       })
     },
-    getDesignations () {
+    getCountries () {
       let arr = []
-      let data = { path: "/designations" }
+      let data = { path: "/all_countries" }
       this.$store.dispatch('list',data).then(response => {
         response.data.data.forEach(data => {
           arr.push({
@@ -271,12 +414,12 @@ export default {
             value: data.id
           })
         })
-        this.designations = arr
+        this.countries = arr
       })
     },
-    getEvaluations () {
+    getCities () {
       let arr = []
-      let data = { path: "/evaluation_types" }
+      let data = { path: "/cities" }
       this.$store.dispatch('list',data).then(response => {
         response.data.data.forEach(data => {
           arr.push({
@@ -284,7 +427,7 @@ export default {
             value: data.id
           })
         })
-        this.evaluations = arr
+        this.cities = arr
       })
     },
     getBranches () {
@@ -300,8 +443,21 @@ export default {
         this.branches = arr
       })
     },
+    getCurrencies () {
+      let arr = []
+      let data = { path: "/currencies" }
+      this.$store.dispatch('list',data).then(response => {
+        response.data.data.forEach(data => {
+          arr.push({
+            text : data.en_name +' '+ data.ar_name,
+            value: data.id
+          })
+        })
+        this.currencies = arr
+      })
+    },
     getList(){
-      let data = { path: "/evaluation_posts" }
+      let data = { path: "/compnay_banks" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -316,7 +472,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/evaluation_post/"+this.editedItem.id,
+            path:"/compnay_bank/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -333,7 +489,7 @@ export default {
         }
         else {
           let data={
-            path:"/evaluation_posts",
+            path:"/compnay_banks",
             data:this.editedItem
           }
           this.dialog = false
@@ -357,9 +513,10 @@ export default {
       // console.log('index',this.desserts.indexOf(item))
       this.editedItem = Vue.util.extend({}, item);
       this.editedItem.company_id = item.company_id.id
-      this.editedItem.designation_id = item.designation_id.id
-      this.editedItem.evaluation_id = item.evaluation_id.id
+      this.editedItem.country_id = item.country_id.id
+      this.editedItem.city_id = item.city_id.id
       this.editedItem.branch_id = item.branch_id.id
+      this.editedItem.currency_id = item.currency_id.id
       this.dialog = true
     },
     deleteItem (id) {
@@ -373,7 +530,7 @@ export default {
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_evaluation_posts'
+        'path' : '/delete_compnay_banks'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -386,12 +543,23 @@ export default {
       });
     },
     reset() {
-      this.editedItem.max_mark = ''
-      this.editedItem.status = ''
+      this.editedItem.en_name = ''
+      this.editedItem.ar_name = ''
       this.editedItem.company_id = ''
-      this.editedItem.designation_id = ''
-      this.editedItem.evaluation_id = ''
+      this.editedItem.country_id = ''
+      this.editedItem.city_id = ''
       this.editedItem.branch_id = ''
+      this.editedItem.currency_id = ''
+      this.editedItem.account_type = ''
+      this.editedItem.account_no = ''
+      this.editedItem.address_1 = ''
+      this.editedItem.address_2 = ''
+      this.editedItem.address_3 = ''
+      this.editedItem.address_4 = ''
+      this.editedItem.gl_acct_code = ''
+      this.editedItem.bank_code = ''
+      this.editedItem.bank_file = ''
+      this.editedItem.payment_type = ''
       this.countryId = []
       this.editedIndex = -1
     }

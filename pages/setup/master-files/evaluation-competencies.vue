@@ -1,5 +1,4 @@
 <template>
-
   <v-container
     id="user-profile"
     fluid
@@ -12,7 +11,7 @@
       >
         <MaterialCard
           color="success"
-          title="Sections"
+          title="Evaluation"
           class="px-5 py-3"
         >
           <v-data-table
@@ -37,8 +36,9 @@
                       v-bind="attrs"
                       v-on="on"
                       @click="reset"
+                      rounded
                     >
-                      Add Section
+                      Add Evaluation
                     </v-btn>
                   </template>
                   <v-card>
@@ -74,6 +74,48 @@
                                   :rules="[ (value) => !!value || 'This  field is required',
                                 (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
                                 ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.group"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Group"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.eval_cycle"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Eval Cycle"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.max_mark"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Max Mark"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -141,9 +183,9 @@
 import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
 export default {
-  name: "Sections",
-  middleware: ["auth"],
+  name: "EvaluationCompetencies",
   components: {MaterialCard },
+  middleware: ["auth"],
   data(){
     return{
       dialog: false,
@@ -156,6 +198,9 @@ export default {
         },
         { text: 'En Name', value: 'en_name' },
         { text: 'Ar Name', value: 'ar_name' },
+        { text: 'Group', value: 'group' },
+        { text: 'Eval Cycle', value: 'eval_cycle' },
+        { text: 'Max Mark', value: 'max_mark' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -163,6 +208,9 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
+        group: '0',
+        eval_cycle: '0',
+        max_mark: '0'
       },
       countryId:[],
       allData: []
@@ -170,7 +218,7 @@ export default {
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Section' : 'Edit Section'
+      return this.editedIndex === -1 ? 'New Evaluation' : 'Edit Evaluation'
     }
   },
   created () {
@@ -178,7 +226,7 @@ export default {
   },
   methods: {
     getList(){
-      let data = { path: "/sections" }
+      let data = { path: "/evaluations" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -193,7 +241,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/section/"+this.editedItem.id,
+            path:"/evaluation/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -210,7 +258,7 @@ export default {
         }
         else {
           let data={
-            path:"/sections",
+            path:"/evaluations",
             data:this.editedItem
           }
           this.dialog = false
@@ -246,7 +294,7 @@ export default {
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_sections'
+        'path' : '/delete_evaluations'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -261,11 +309,14 @@ export default {
     reset() {
       this.editedItem.en_name = ''
       this.editedItem.ar_name = ''
+      this.editedItem.group = '0'
+      this.editedItem.eval_cycle = '0'
+      this.editedItem.max_mark = '0'
       this.countryId = []
       this.editedIndex = -1
     }
-  },
 
+  },
 }
 </script>
 

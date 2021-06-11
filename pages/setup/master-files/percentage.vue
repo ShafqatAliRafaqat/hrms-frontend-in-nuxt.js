@@ -1,4 +1,5 @@
 <template>
+
   <v-container
     id="user-profile"
     fluid
@@ -11,7 +12,7 @@
       >
         <MaterialCard
           color="success"
-          title="Religion"
+          title="Percentage"
           class="px-5 py-3"
         >
           <v-data-table
@@ -35,9 +36,9 @@
                       class="mb-2"
                       v-bind="attrs"
                       v-on="on"
-                      @click="reset"
+                      @click="reset"  rounded
                     >
-                      Add Religion
+                      Add Percentage
                     </v-btn>
                   </template>
                   <v-card>
@@ -55,7 +56,7 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Religion Types in Arabic"
+                                  label="Competence Name in Arabic"
                                   class="direction"
                                   v-model="editedItem.ar_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
@@ -68,11 +69,53 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Religion Types in English"
+                                  label="Competence Name in English"
                                   v-model="editedItem.en_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
                                 (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
                                 ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.value"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Value"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.to"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="To"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.from"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="From"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -140,9 +183,9 @@
 import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
 export default {
-  name: "Religion",
-  components: {MaterialCard },
+  name: "Percentage",
   middleware: ["auth"],
+  components: {MaterialCard },
   data(){
     return{
       dialog: false,
@@ -155,6 +198,9 @@ export default {
         },
         { text: 'En Name', value: 'en_name' },
         { text: 'Ar Name', value: 'ar_name' },
+        { text: 'Value', value: 'value' },
+        { text: 'To', value: 'to' },
+        { text: 'From', value: 'from' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -162,10 +208,9 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-      },
-      defaultItem: {
-        en_name: '',
-        ar_name: '',
+        value: '0',
+        to: '0',
+        from: '0'
       },
       countryId:[],
       allData: []
@@ -173,16 +218,15 @@ export default {
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Religion' : 'Edit Religion'
+      return this.editedIndex === -1 ? 'New Percentage' : 'Edit Percentage'
     }
   },
   created () {
     this.getList()
   },
-
   methods: {
     getList(){
-      let data = { path: "/religions" }
+      let data = { path: "/percentages" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -197,7 +241,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/religion/"+this.editedItem.id,
+            path:"/percentage/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -214,7 +258,7 @@ export default {
         }
         else {
           let data={
-            path:"/religions",
+            path:"/percentages",
             data:this.editedItem
           }
           this.dialog = false
@@ -250,7 +294,7 @@ export default {
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_religions'
+        'path' : '/delete_percentages'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -265,10 +309,12 @@ export default {
     reset() {
       this.editedItem.en_name = ''
       this.editedItem.ar_name = ''
+      this.editedItem.value = '0'
+      this.editedItem.to = '0'
+      this.editedItem.from = '0'
       this.countryId = []
       this.editedIndex = -1
     }
-
   },
 }
 </script>

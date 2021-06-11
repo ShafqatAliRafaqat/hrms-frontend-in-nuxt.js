@@ -11,7 +11,7 @@
       >
         <MaterialCard
           color="success"
-          title="Evaluation"
+          title="Document Types"
           class="px-5 py-3"
         >
           <v-data-table
@@ -36,8 +36,9 @@
                       v-bind="attrs"
                       v-on="on"
                       @click="reset"
+                      rounded
                     >
-                      Add Evaluation
+                      Add Document Type
                     </v-btn>
                   </template>
                   <v-card>
@@ -55,7 +56,7 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Competence Name in Arabic"
+                                  label="Document Types in Arabic"
                                   class="direction"
                                   v-model="editedItem.ar_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
@@ -68,7 +69,7 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Competence Name in English"
+                                  label="Document Types in English"
                                   v-model="editedItem.en_name"
                                   :rules="[ (value) => !!value || 'This  field is required',
                                 (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
@@ -79,11 +80,23 @@
                                 sm="6"
                                 md="6"
                               >
+                                <v-text-field
+                                  label="Exp Date"
+                                  type="date"
+                                  v-model="editedItem.exp_date"
+                                  :rules="[ (value) => !!value || 'This  field is required']"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
                                 <v-checkbox
-                                  v-model="editedItem.group"
+                                  v-model="editedItem.hijriflag"
                                   :false-value="0"
                                   :true-value="1"
-                                  label="Group"
+                                  label="Hijri Flag"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -94,10 +107,10 @@
                                 md="6"
                               >
                                 <v-checkbox
-                                  v-model="editedItem.eval_cycle"
+                                  v-model="editedItem.co_flag"
                                   :false-value="0"
                                   :true-value="1"
-                                  label="Eval Cycle"
+                                  label="Co Flag"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -108,10 +121,24 @@
                                 md="6"
                               >
                                 <v-checkbox
-                                  v-model="editedItem.max_mark"
+                                  v-model="editedItem.substitution"
                                   :false-value="0"
                                   :true-value="1"
-                                  label="Max Mark"
+                                  label="Substitution"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.renew_flag"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Renew Flag"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -128,7 +155,7 @@
                       <v-btn
                         color="blue darken-1"
                         text
-                        @click="dialog=false"
+                        @click="dialog = false"
                       >
                         Cancel
                       </v-btn>
@@ -182,7 +209,7 @@
 import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
 export default {
-  name: "EvaluationCompetencies",
+  name: "DocumentTypes",
   components: {MaterialCard },
   middleware: ["auth"],
   data(){
@@ -197,9 +224,11 @@ export default {
         },
         { text: 'En Name', value: 'en_name' },
         { text: 'Ar Name', value: 'ar_name' },
-        { text: 'Group', value: 'group' },
-        { text: 'Eval Cycle', value: 'eval_cycle' },
-        { text: 'Max Mark', value: 'max_mark' },
+        { text: 'Exp Date', value: 'exp_date' },
+        { text: 'Hijri Flag', value: 'hijriflag' },
+        { text: 'Co Flag', value: 'co_flag' },
+        { text: 'Substitution', value: 'substitution' },
+        { text: 'Renew Flag', value: 'renew_flag' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -207,9 +236,11 @@ export default {
       editedItem: {
         en_name: '',
         ar_name: '',
-        group: '0',
-        eval_cycle: '0',
-        max_mark: '0'
+        exp_date: '',
+        hijriflag: '0',
+        co_flag: '0',
+        substitution: '0',
+        renew_flag: '0',
       },
       countryId:[],
       allData: []
@@ -217,7 +248,7 @@ export default {
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Evaluation' : 'Edit Evaluation'
+      return this.editedIndex === -1 ? 'New Document Type' : 'Edit Document Type'
     }
   },
   created () {
@@ -225,7 +256,7 @@ export default {
   },
   methods: {
     getList(){
-      let data = { path: "/evaluations" }
+      let data = { path: "/documents" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -240,7 +271,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/evaluation/"+this.editedItem.id,
+            path:"/document/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -257,7 +288,7 @@ export default {
         }
         else {
           let data={
-            path:"/evaluations",
+            path:"/documents",
             data:this.editedItem
           }
           this.dialog = false
@@ -293,7 +324,7 @@ export default {
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_evaluations'
+        'path' : '/delete_documents'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -308,9 +339,11 @@ export default {
     reset() {
       this.editedItem.en_name = ''
       this.editedItem.ar_name = ''
-      this.editedItem.group = '0'
-      this.editedItem.eval_cycle = '0'
-      this.editedItem.max_mark = '0'
+      this.editedItem.exp_date = ''
+      this.editedItem.hijriflag = '0'
+      this.editedItem.co_flag = '0'
+      this.editedItem.substitution = '0'
+      this.editedItem.renew_flag = '0'
       this.countryId = []
       this.editedIndex = -1
     }

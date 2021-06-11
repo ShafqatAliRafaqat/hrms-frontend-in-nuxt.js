@@ -5,7 +5,6 @@
     :dark="barColor !== 'rgba(228, 226, 226, 1), rgba(255, 255, 255, 0.7)'"
     :expand-on-hover="expandOnHover"
     :right="$vuetify.rtl"
-    :src="barImage"
     mobile-break-point="960"
     app
     width="260"
@@ -20,21 +19,21 @@
 
     <v-divider class="mb-1" />
 
-    <v-list<v-list
+    <v-list
     dense
     nav
   >
     <v-list-item>
-      <v-list-item-avatar
-        class="align-self-center"
-        color="white"
-        contain
-      >
-        <v-img
-          src=""
-          max-height="30"
-        />
-      </v-list-item-avatar>
+<!--      <v-list-item-avatar-->
+<!--        class="align-self-center"-->
+<!--        color="white"-->
+<!--        contain-->
+<!--      >-->
+<!--        <v-img-->
+<!--          src=""-->
+<!--          max-height="30"-->
+<!--        />-->
+<!--      </v-list-item-avatar>-->
 
       <v-list-item-content>
 <!--        <v-list-item-title-->
@@ -42,8 +41,8 @@
 <!--          v-text="profile.title"-->
 <!--        />-->
         <v-img
-          src="/INJAZAT-Logo.png"
-          max-height="30"
+          src="/Injazat.png"
+          max-height="50"
         />
       </v-list-item-content>
     </v-list-item>
@@ -61,20 +60,24 @@
 
       <template>
         <v-list-group
-          prepend-icon="mdi-apps"
+
           :value="false">
           <template v-slot:activator>
-            <v-list-item-title>Setup</v-list-item-title>
+            <v-icon>mdi-apps</v-icon>
+            <v-list-item-title class="text-center mr-7">Setup</v-list-item-title>
           </template>
           <v-list-group
             no-action
             sub-group >
             <template v-slot:activator>
+              <v-list-item-action>
+                <v-icon>mdi-atom</v-icon>
+              </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>Company Setup</v-list-item-title>
+                <v-list-item-title class="text-center ml-4">Company Setup</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item link to="/setup/CompanySetup/CompanyInfo">
+            <v-list-item link to="/setup/company-setup/company-info">
               <!--                <v-list-item-action>-->
               <!--                  <v-icon>mdi-school</v-icon>-->
               <!--                </v-list-item-action>-->
@@ -82,27 +85,27 @@
                 <v-list-item-title> Company Info</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/CompanySetup/Branch" >
+            <v-list-item link to="/setup/company-setup/branch" >
               <v-list-item-content >
                 <v-list-item-title>Branch</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/CompanySetup/Departments">
+            <v-list-item link to="/setup/company-setup/departments">
               <v-list-item-content >
                 <v-list-item-title>Departments</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/CompanySetup/Banks">
+            <v-list-item link to="/setup/company-setup/banks">
               <v-list-item-content >
                 <v-list-item-title>Banks</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/CompanySetup/LegalDocuments" >
+            <v-list-item link to="/setup/company-setup/department-section" >
               <v-list-item-content >
-                <v-list-item-title>Legal Documents</v-list-item-title>
+                <v-list-item-title>Department Section</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/CompanySetup/Notes">
+            <v-list-item link to="/setup/company-setup/notes">
               <v-list-item-content >
                 <v-list-item-title>Notes</v-list-item-title>
               </v-list-item-content>
@@ -113,124 +116,128 @@
             sub-group
           >
             <template v-slot:activator>
+
+              <v-list-item-action>
+                <v-icon>mdi-cog-transfer-outline</v-icon>
+              </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>Master Files</v-list-item-title>
+                <v-list-item-title class="text-center">Master Files</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item link to="/setup/MasterFiles/CountryNationality">
+            <v-list-item link to="/setup/master-files/country-nationality">
               <v-list-item-content>
                 <v-list-item-title> Country/Nationality</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/City">
+            <v-list-item link to="/setup/master-files/city">
               <v-list-item-content>
                 <v-list-item-title> City</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/Religion">
+            <v-list-item link to="/setup/master-files/religion">
               <v-list-item-content>
                 <v-list-item-title> Religion</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/EvaluationCompetencies">
+            <v-list-item link to="/setup/master-files/evaluation-competencies">
               <v-list-item-content>
                 <v-list-item-title> Evaluation Competencies</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/EvaluationTypes">
+            <v-list-item link to="/setup/master-files/evaluation-types">
               <v-list-item-content>
                 <v-list-item-title> Evaluation Types</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/DocumentTypes">
+            <v-list-item link to="/setup/master-files/document-types">
               <v-list-item-content>
                 <v-list-item-title>Document Types</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/BeneficiaryTypes">
+            <v-list-item link to="/setup/master-files/beneficiary-types">
               <v-list-item-content>
                 <v-list-item-title>Beneficiary Types</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/LeaveTypes">
+            <v-list-item link to="/setup/master-files/leave-types">
               <v-list-item-content>
                 <v-list-item-title> Leave/Vacation Types</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/Positions">
+            <v-list-item link to="/setup/master-files/positions">
               <v-list-item-content>
                 <v-list-item-title>Positions/Designations</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/Sponsors">
+            <v-list-item link to="/setup/master-files/sponsors">
               <v-list-item-content>
                 <v-list-item-title>Sponsors</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/Earnings">
+            <v-list-item link to="/setup/master-files/earnings">
               <v-list-item-content>
                 <v-list-item-title> Earnings/Benefits</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/Deductions">
+            <v-list-item link to="/setup/master-files/deductions">
               <v-list-item-content>
                 <v-list-item-title>Deductions</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/Modification">
+            <v-list-item link to="/setup/master-files/modification">
               <v-list-item-content>
                 <v-list-item-title>Modification Types</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/CurrencyTypes">
+            <v-list-item link to="/setup/master-files/currency-types">
               <v-list-item-content>
                 <v-list-item-title> Currency Types</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/Sections">
+            <v-list-item link to="/setup/master-files/sections">
               <v-list-item-content>
                 <v-list-item-title> Sections</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/CostCenters">
+            <v-list-item link to="/setup/master-files/cost-centers">
               <v-list-item-content>
                 <v-list-item-title> Cost Centers</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/BeginningBalance">
+            <v-list-item link to="/setup/master-files/beginning-balance">
               <v-list-item-content>
                 <v-list-item-title> Beginning Balance</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/Percentage">
+            <v-list-item link to="/setup/master-files/percentage">
               <v-list-item-content>
                 <v-list-item-title>Percentage</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/EducationTypes">
+            <v-list-item link to="/setup/master-files/education-types">
               <v-list-item-content>
                 <v-list-item-title>Education Types</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/Sessions">
+            <v-list-item link to="/setup/master-files/sessions">
               <v-list-item-content>
                 <v-list-item-title>Sessions</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/CompanySchedules">
+            <v-list-item link to="/setup/master-files/company-schedules">
               <v-list-item-content>
                 <v-list-item-title> Company Schedules</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/MasterFiles/GosiSubscription">
+            <v-list-item link to="/setup/master-files/gosi-subscription">
               <v-list-item-content>
                 <v-list-item-title>Gosi Subscription</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list-group>
-          <v-list-item link to="/setup/ApplicationPreferences">
+          <v-list-item link to="/setup/application-preferences">
             <v-list-item-action>
-              <v-icon>mdi-cards-club</v-icon>
+              <v-icon>mdi-android-auto</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title> {{$t('application_preferences')}}</v-list-item-title>
@@ -252,7 +259,7 @@
               <v-list-item-title> {{$t('assoc_position')}}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item link to="/setup/Letter">
+          <v-list-item link to="/setup/letter">
             <v-list-item-action>
               <v-icon>mdi-camera-control </v-icon>
             </v-list-item-action>
