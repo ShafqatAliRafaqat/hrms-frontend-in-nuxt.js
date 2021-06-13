@@ -151,7 +151,7 @@ export default {
 }
 .left-section{
   transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;
-  min-height: 700px;
+  min-height: 400px;
   padding: 75px;
   @media (max-width:768px) {
     padding: 12px;
