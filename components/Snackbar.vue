@@ -4,6 +4,7 @@
       :multi-line="multiLine"
       :timeout="timeout"
       :color="notify.color"
+      bottom right
     >
       {{ notify.message }}
 <!--      <template v-slot:action="{ attrs }">-->

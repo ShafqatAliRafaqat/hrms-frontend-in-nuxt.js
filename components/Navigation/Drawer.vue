@@ -18,35 +18,37 @@
     </template>
 
     <v-divider class="mb-1" />
+    <div class="text-center">
+      <img  src="/Injazat.png" alt="" class="logo-height">
+    </div>
+<!--    <v-list-->
+<!--    dense-->
+<!--    nav-->
+<!--  >-->
+<!--    <v-list-item>-->
+<!--&lt;!&ndash;      <v-list-item-avatar&ndash;&gt;-->
+<!--&lt;!&ndash;        class="align-self-center"&ndash;&gt;-->
+<!--&lt;!&ndash;        color="white"&ndash;&gt;-->
+<!--&lt;!&ndash;        contain&ndash;&gt;-->
+<!--&lt;!&ndash;      >&ndash;&gt;-->
+<!--&lt;!&ndash;        <v-img&ndash;&gt;-->
+<!--&lt;!&ndash;          src=""&ndash;&gt;-->
+<!--&lt;!&ndash;          max-height="30"&ndash;&gt;-->
+<!--&lt;!&ndash;        />&ndash;&gt;-->
+<!--&lt;!&ndash;      </v-list-item-avatar>&ndash;&gt;-->
 
-    <v-list
-    dense
-    nav
-  >
-    <v-list-item>
-<!--      <v-list-item-avatar-->
-<!--        class="align-self-center"-->
-<!--        color="white"-->
-<!--        contain-->
-<!--      >-->
+<!--      <v-list-item-content>-->
+<!--&lt;!&ndash;        <v-list-item-title&ndash;&gt;-->
+<!--&lt;!&ndash;          class="display-1"&ndash;&gt;-->
+<!--&lt;!&ndash;          v-text="profile.title"&ndash;&gt;-->
+<!--&lt;!&ndash;        />&ndash;&gt;-->
 <!--        <v-img-->
-<!--          src=""-->
-<!--          max-height="30"-->
+<!--          src="/Injazat.png"-->
+<!--          max-height="50"-->
 <!--        />-->
-<!--      </v-list-item-avatar>-->
-
-      <v-list-item-content>
-<!--        <v-list-item-title-->
-<!--          class="display-1"-->
-<!--          v-text="profile.title"-->
-<!--        />-->
-        <v-img
-          src="/Injazat.png"
-          max-height="50"
-        />
-      </v-list-item-content>
-    </v-list-item>
-  </v-list>
+<!--      </v-list-item-content>-->
+<!--    </v-list-item>-->
+<!--  </v-list>-->
 
     <v-divider class="mb-2" />
 
@@ -335,7 +337,8 @@
   }
 </script>
 
-<style lang="sass">
+<style lang="sass" >
+
   @import '~vuetify/src/styles/tools/_rtl.sass'
 
   #core-navigation-drawer
@@ -390,4 +393,11 @@
 
           +rtl()
             margin-left: 8px
+
+        .v-list-group--active .primary--text
+          color: #D9D9D9 !important
+          caret-color: #D9D9D9 !important
+        .v-application .primary--text
+           color: #D9D9D9 !important
+           caret-color: #D9D9D9 !important
 </style>

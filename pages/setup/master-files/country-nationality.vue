@@ -42,6 +42,7 @@
                       v-bind="attrs"
                       v-on="on"
                       rounded
+                      @click="reset"
                     >
                       Add Country
                     </v-btn>
@@ -244,20 +245,9 @@ export default {
       return this.$store.state.countries
     },
   },
-
-  watch: {
-    // dialog (val) {
-    //   val || this.close()
-    // },
-    // dialogDelete (val) {
-    //   val || this.closeDelete()
-    // },
-  },
-
   created () {
     this.countryList()
   },
-
   methods: {
     countryList(){
       let data={
@@ -357,6 +347,15 @@ export default {
       this.countryList()
     });
     },
+    reset(){
+      this.editedItem.en_name = ''
+      this.editedItem.en_nationality = ''
+      this.editedItem.ar_name = ''
+      this.editedItem.ar_nationality = ''
+      this.editedItem.code = ''
+      this.editedItem.phonecode = ''
+      this.editedIndex = -1
+    }
 
   },
 }

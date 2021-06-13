@@ -42,6 +42,7 @@
                       v-bind="attrs"
                       v-on="on"
                       rounded
+                      @click="reset"
                     >
                       Add City
                     </v-btn>
@@ -315,7 +316,6 @@ export default {
       }
 
     },
-
     deleteItem (id) {
       console.log('idss',id)
       this.cityId[0]=id
@@ -340,6 +340,14 @@ export default {
         this.cityList()
       });
     },
+    reset(){
+      this.editedItem.en_name = ''
+      this.editedItem.ar_name = ''
+      this.editedItem.region = ''
+      this.editedItem.ticket_value = ''
+      this.editedItem.country_id = ''
+      this.editedIndex = -1
+    }
 
   },
 }
