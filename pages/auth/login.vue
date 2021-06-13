@@ -132,7 +132,7 @@ export default {
 
 }
 .custom-height{
-  max-height: 500px;
+  min-height: 400px;
   margin: 4rem auto;
   //min-height: 500px;
   //margin-top: 8rem;
