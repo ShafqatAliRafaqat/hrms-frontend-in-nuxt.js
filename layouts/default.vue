@@ -1,8 +1,8 @@
 <template>
   <v-app>
-<!--    <AppBar />-->
-<!--    <Drawer/>-->
-    <Navbar/>
+    <AppBar />
+    <Drawer/>
+<!--    <Navbar/>-->
     <v-main>
       <v-container>
         <snackbar v-if="notify.snackbar"></snackbar>

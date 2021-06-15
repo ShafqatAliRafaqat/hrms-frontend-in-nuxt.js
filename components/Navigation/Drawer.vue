@@ -76,7 +76,7 @@
                 <v-icon>mdi-atom</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title class="text-center ml-4">Company Setup</v-list-item-title>
+                <v-list-item-title class="ml-2">Company Setup</v-list-item-title>
               </v-list-item-content>
             </template>
             <v-list-item link to="/setup/company-setup/company-info">
@@ -123,7 +123,7 @@
                 <v-icon>mdi-cog-transfer-outline</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title class="text-center">Master Files</v-list-item-title>
+                <v-list-item-title class="ml-2">Master Files</v-list-item-title>
               </v-list-item-content>
             </template>
             <v-list-item link to="/setup/master-files/country-nationality">
@@ -245,7 +245,7 @@
                 <v-icon>mdi-atom</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>Application Preferences</v-list-item-title>
+                <v-list-item-title class="text-center ml-2">Application Preferences</v-list-item-title>
               </v-list-item-content>
             </template>
             <v-list-item link to="/setup/application-preferences/gosi-preferences">
@@ -282,40 +282,161 @@
               </v-list-item-content>
             </v-list-item>
           </v-list-group>
-          <v-list-item link to="/setup/associate-benefits">
-            <v-list-item-action>
-              <v-icon>mdi-camera-iris</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title> {{$t('assoc_benefits')}}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item link to="/setup/associate-evaluation">
-            <v-list-item-action>
-              <v-icon>mdi-brightness-7</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title> {{$t('assoc_position')}}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item link to="/setup/letter">
-            <v-list-item-action>
-              <v-icon>mdi-camera-control </v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title> {{$t('setup_letter')}}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item link to="/setup/sms-letter">
-            <v-list-item-action>
-              <v-icon>mdi-book-open-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title> {{$t('sms_letter')}}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+
+          <v-list-group
+            no-action
+            sub-group >
+            <template v-slot:activator>
+              <v-list-item-action>
+                <v-icon>mdi-atom</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title class=" ml-2">Preferences</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item link to="/setup/application-preferences/gosi-preferences">
+              <!--                <v-list-item-action>-->
+              <!--                  <v-icon>mdi-school</v-icon>-->
+              <!--                </v-list-item-action>-->
+              <v-list-item-content>
+                <v-list-item-title> Gosi Preferences</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/setup/application-preferences/payroll-preferences" >
+              <v-list-item-content >
+                <v-list-item-title>Payroll Preferences</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/setup/application-preferences/effectivity-preferences" >
+              <v-list-item-content >
+                <v-list-item-title>Effectivity Preferences</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/setup/application-preferences/payroll-specific-preferences" >
+              <v-list-item-content >
+                <v-list-item-title>Payroll Specific Preferences</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/setup/application-preferences/leave-specific-preferences" >
+              <v-list-item-content >
+                <v-list-item-title>Leave Specific Preferences</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/setup/application-preferences/termination-specific-preferences" >
+              <v-list-item-content>
+                <v-list-item-title>Termination Specific Preferences</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+
+          <v-list-group
+            no-action
+            sub-group >
+            <template v-slot:activator>
+              <v-list-item-action>
+                <v-icon>mdi-camera-iris</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title class="text-center ml-2">Associate Benefits</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item link to="/setup/associate-benefits">
+              <v-list-item-action>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title> {{$t('assoc_benefits')}}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+
+          <v-list-group
+            no-action
+            sub-group >
+            <template v-slot:activator>
+              <v-list-item-action>
+                <v-icon>mdi-brightness-7</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title class="text-center ml-2">Associate Evaluation</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item link to="/setup/associate-evaluation">
+              <v-list-item-action>
+                <v-icon></v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title> {{$t('assoc_position')}}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+
+          <v-list-group
+            no-action
+            sub-group >
+            <template v-slot:activator>
+              <v-list-item-action>
+                <v-icon>mdi-camera-control</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title class=" ml-2">Letter</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item link to="/setup/letter">
+              <v-list-item-action>
+                <v-icon> </v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title> {{$t('setup_letter')}}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+
+          <v-list-group
+            no-action
+            sub-group >
+            <template v-slot:activator>
+              <v-list-item-action>
+                <v-icon>mdi-book-open-outline</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title class="ml-2">Sms</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item link to="/setup/sms-letter">
+              <v-list-item-action>
+                <v-icon></v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title> {{$t('sms_letter')}}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
 
         </v-list-group>
+        <v-list-item link to="/maintenance">
+          <v-list-item-action>
+            <v-icon>mdi-cog-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title> {{$t('maintenance')}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link to="/payroll">
+          <v-list-item-action>
+            <v-icon>mdi-bank-check</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title> {{$t('payroll')}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link to="/issuance">
+          <v-list-item-action>
+            <v-icon>mdi-broadcast</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title> {{$t('issuance')}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </template>
 
       <!-- Style cascading bug  -->
