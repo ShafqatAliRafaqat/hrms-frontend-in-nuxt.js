@@ -19,7 +19,10 @@
 <script>
 export default {
   name: "index.vue",
-  middleware: ["auth"]
+  middleware: ["auth"],
+  created() {
+    this.$store.commit('SHOW_LOADER',false)
+  }
 }
 </script>
 

@@ -255,8 +255,6 @@ export default {
       }
       this.$store.dispatch('list',data)
         .then(response => {
-          console.log('yesss')
-          console.log('cl',response)
         this.$store.commit("COUNTRIES_LIST", response.data.data);
         this.$store.commit("SHOW_LOADER", false);
         this.$store.commit("SHOW_SNACKBAR", {
@@ -265,10 +263,6 @@ export default {
           message: response.data.message
         });
       }).catch(error=>{
-
-        console.log('Noooo')
-        console.log('e',error)
-        console.log('er',error.response)
         this.$store.commit('SHOW_LOADER', false)
         this.$store.commit('SHOW_SNACKBAR',{  snackbar:true,color:'red',message:error.response.data.message})
       });
@@ -280,13 +274,9 @@ export default {
             path:"/country/"+this.editedItem.id,
             data:this.editedItem
           }
-          console.log('edit form',this.editedItem.id)
-          console.log('edit form data',this.editedItem)
-          this.dialog = false
           this.$store.commit("SHOW_LOADER", true);
           await this.$store.dispatch("update", data).then(response => {
-            console.log('edit form res',response)
-
+            this.dialog = false
             this.$store.commit("SHOW_LOADER", false);
             this.$store.commit("SHOW_SNACKBAR", {
               snackbar: true,
@@ -294,16 +284,23 @@ export default {
               message: response.data.message
             });
             this.countryList()
-          });
+          }).catch(error => {
+            this.$store.commit("SHOW_LOADER", false);
+            this.$store.commit("SHOW_SNACKBAR", {
+              snackbar: true,
+              color: "error",
+              message: error.response.data.message
+            });
+          })
         }
         else {
           let data={
             path:"/countries",
             data:this.editedItem
           }
-          this.dialog = false
           this.$store.commit("SHOW_LOADER", true);
           await this.$store.dispatch("create", data).then(response => {
+            this.dialog = false
             this.$store.commit("SHOW_LOADER", false);
             this.$store.commit("SHOW_SNACKBAR", {
               snackbar: true,
@@ -311,7 +308,14 @@ export default {
               message: response.data.message
             });
             this.countryList()
-          });
+          }).catch(error => {
+            this.$store.commit("SHOW_LOADER", false);
+            this.$store.commit("SHOW_SNACKBAR", {
+              snackbar: true,
+              color: "error",
+              message: error.response.data.message
+            });
+          })
         }
       }
 
@@ -345,7 +349,14 @@ export default {
         message: response.data.message
       });
       this.countryList()
-    });
+    }).catch(error => {
+      this.$store.commit("SHOW_LOADER", false);
+      this.$store.commit("SHOW_SNACKBAR", {
+        snackbar: true,
+        color: "error",
+        message: error.response.data.message
+      });
+    })
     },
     reset(){
       this.editedItem.en_name = ''

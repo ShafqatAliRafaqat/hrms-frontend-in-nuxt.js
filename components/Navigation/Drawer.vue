@@ -237,14 +237,51 @@
               </v-list-item-content>
             </v-list-item>
           </v-list-group>
-          <v-list-item link to="/setup/application-preferences">
-            <v-list-item-action>
-              <v-icon>mdi-android-auto</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title> {{$t('application_preferences')}}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+          <v-list-group
+            no-action
+            sub-group >
+            <template v-slot:activator>
+              <v-list-item-action>
+                <v-icon>mdi-atom</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>Application Preferences</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item link to="/setup/application-preferences/gosi-preferences">
+              <!--                <v-list-item-action>-->
+              <!--                  <v-icon>mdi-school</v-icon>-->
+              <!--                </v-list-item-action>-->
+              <v-list-item-content>
+                <v-list-item-title> Gosi Preferences</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/setup/application-preferences/payroll-preferences" >
+              <v-list-item-content >
+                <v-list-item-title>Payroll Preferences</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/setup/application-preferences/effectivity-preferences" >
+              <v-list-item-content >
+                <v-list-item-title>Effectivity Preferences</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/setup/application-preferences/payroll-specific-preferences" >
+              <v-list-item-content >
+                <v-list-item-title>Payroll Specific Preferences</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/setup/application-preferences/leave-specific-preferences" >
+              <v-list-item-content >
+                <v-list-item-title>Leave Specific Preferences</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item link to="/setup/application-preferences/termination-specific-preferences" >
+              <v-list-item-content>
+                <v-list-item-title>Termination Specific Preferences</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
           <v-list-item link to="/setup/associate-benefits">
             <v-list-item-action>
               <v-icon>mdi-camera-iris</v-icon>

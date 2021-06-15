@@ -8,7 +8,6 @@
     height="75"
   >
     <v-app-bar-nav-icon    @click="setDrawer(!drawer)" />
-
 <!--    <v-btn-->
 <!--      class="mr-3"-->
 <!--      elevation="1"-->

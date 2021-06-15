@@ -11,8 +11,16 @@ export default {
   components: {
     login
   },
-  mounted(){
-    this.$router.push('/auth/login')
+  created(){
+
+    if (!this.$store.state.user.isAuthenticated) {
+      this.$router.push('/auth/login')
+    }
+    else{
+      this.$router.push('/setup')
+    }
+
+
   }
 }
 </script>

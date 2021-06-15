@@ -109,8 +109,6 @@ export default () => {
           method:'POST',
           url:data.path,
           data:data.data
-        }).then(response =>{
-          return response;
         })
       },
       update({dispatch,commit},data){
@@ -118,8 +116,6 @@ export default () => {
           method:'POST',
           url:data.path,
           data:data.data
-        }).then(response =>{
-          return response;
         })
       },
       delete({dispatch,commit},data){
@@ -127,13 +123,8 @@ export default () => {
           method:'POST',
           url: data.path,
           data:data
-        }).then(response =>{
-          return response;
         })
       },
-
-
-
     },
   });
 };

@@ -185,6 +185,7 @@
 
 <script>
 import MaterialCard from "~/components/base/MaterialCard";
+import Vue from "vue";
 export default {
   name: "City",
   middleware: ["auth"],
@@ -215,13 +216,6 @@ export default {
         ticket_value: '',
         country_id:'',
 
-      },
-      defaultItem: {
-        en_name: '',
-        ar_name: '',
-        region: '',
-        ticket_value: '',
-        country_id: '',
       },
       cityData:[],
       cityId:[]
@@ -266,7 +260,8 @@ export default {
     editItem (item) {
       this.editedIndex = 2
       // console.log('index',item.country_id.id)
-      this.editedItem =item
+      this.editedItem = Vue.util.extend({}, item);
+      this.editedItem.country_id = item.country_id.id
       // this.editedItem.country_id=item.country_id.id
       // console.log('item',this.editedItem)
 
@@ -279,14 +274,9 @@ export default {
             path:"/city/"+this.editedItem.id,
             data:this.editedItem
           }
-          data.data.country_id=data.data.country_id.id
-
-          console.log(' data',data)
           this.dialog = false
           this.$store.commit("SHOW_LOADER", true);
           await this.$store.dispatch("update", data).then(response => {
-            console.log('edit form res',response)
-
             this.$store.commit("SHOW_LOADER", false);
             this.$store.commit("SHOW_SNACKBAR", {
               snackbar: true,
@@ -317,7 +307,6 @@ export default {
 
     },
     deleteItem (id) {
-      console.log('idss',id)
       this.cityId[0]=id
       // this.editedIndex = this.desserts.indexOf(item)
       // this.editedItem = Object.assign({}, item)
