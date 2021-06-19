@@ -326,7 +326,14 @@ export default {
               message: response.data.message
             });
             this.getList()
-          });
+          }).catch(error => {
+            this.$store.commit("SHOW_LOADER", false);
+            this.$store.commit("SHOW_SNACKBAR", {
+              snackbar: true,
+              color: "error",
+              message: error.response.data.message
+            });
+          })
         }
         else {
           let data={
@@ -343,7 +350,14 @@ export default {
               message: response.data.message
             });
             this.getList()
-          });
+          }).catch(error => {
+            this.$store.commit("SHOW_LOADER", false);
+            this.$store.commit("SHOW_SNACKBAR", {
+              snackbar: true,
+              color: "error",
+              message: error.response.data.message
+            });
+          })
         }
       }
 
@@ -378,7 +392,14 @@ export default {
           message: response.data.message
         });
         this.getList()
-      });
+      }).catch(error => {
+        this.$store.commit("SHOW_LOADER", false);
+        this.$store.commit("SHOW_SNACKBAR", {
+          snackbar: true,
+          color: "error",
+          message: error.response.data.message
+        });
+      })
     },
     reset() {
       this.editedItem.gosi_non_saudi = ''

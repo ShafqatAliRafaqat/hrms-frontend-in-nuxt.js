@@ -107,11 +107,11 @@
                 <v-list-item-title>Department Section</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/company-setup/notes">
-              <v-list-item-content >
-                <v-list-item-title>Notes</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+<!--            <v-list-item link to="/setup/company-setup/notes">-->
+<!--              <v-list-item-content >-->
+<!--                <v-list-item-title>Notes</v-list-item-title>-->
+<!--              </v-list-item-content>-->
+<!--            </v-list-item>-->
           </v-list-group>
           <v-list-group
             no-action
@@ -206,11 +206,11 @@
                 <v-list-item-title> Cost Centers</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link to="/setup/master-files/beginning-balance">
-              <v-list-item-content>
-                <v-list-item-title> Beginning Balance</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+<!--            <v-list-item link to="/setup/master-files/beginning-balance">-->
+<!--              <v-list-item-content>-->
+<!--                <v-list-item-title> Beginning Balance</v-list-item-title>-->
+<!--              </v-list-item-content>-->
+<!--            </v-list-item>-->
             <v-list-item link to="/setup/master-files/percentage">
               <v-list-item-content>
                 <v-list-item-title>Percentage</v-list-item-title>
@@ -237,52 +237,6 @@
               </v-list-item-content>
             </v-list-item>
           </v-list-group>
-          <v-list-group
-            no-action
-            sub-group >
-            <template v-slot:activator>
-              <v-list-item-action>
-                <v-icon>mdi-atom</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title class="text-center ml-2">Application Preferences</v-list-item-title>
-              </v-list-item-content>
-            </template>
-            <v-list-item link to="/setup/application-preferences/gosi-preferences">
-              <!--                <v-list-item-action>-->
-              <!--                  <v-icon>mdi-school</v-icon>-->
-              <!--                </v-list-item-action>-->
-              <v-list-item-content>
-                <v-list-item-title> Gosi Preferences</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item link to="/setup/application-preferences/payroll-preferences" >
-              <v-list-item-content >
-                <v-list-item-title>Payroll Preferences</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item link to="/setup/application-preferences/effectivity-preferences" >
-              <v-list-item-content >
-                <v-list-item-title>Effectivity Preferences</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item link to="/setup/application-preferences/payroll-specific-preferences" >
-              <v-list-item-content >
-                <v-list-item-title>Payroll Specific Preferences</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item link to="/setup/application-preferences/leave-specific-preferences" >
-              <v-list-item-content >
-                <v-list-item-title>Leave Specific Preferences</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item link to="/setup/application-preferences/termination-specific-preferences" >
-              <v-list-item-content>
-                <v-list-item-title>Termination Specific Preferences</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-group>
-
           <v-list-group
             no-action
             sub-group >
@@ -381,7 +335,7 @@
                 <v-list-item-title class=" ml-2">Letter</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item link to="/setup/letter">
+            <v-list-item link to="/setup/letter/letter">
               <v-list-item-action>
                 <v-icon> </v-icon>
               </v-list-item-action>
@@ -389,6 +343,14 @@
                 <v-list-item-title> {{$t('setup_letter')}}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+<!--            <v-list-item link to="/setup/letter/letter-fields">-->
+<!--              <v-list-item-action>-->
+<!--                <v-icon> </v-icon>-->
+<!--              </v-list-item-action>-->
+<!--              <v-list-item-content>-->
+<!--                <v-list-item-title> Letter Fields </v-list-item-title>-->
+<!--              </v-list-item-content>-->
+<!--            </v-list-item>-->
           </v-list-group>
 
           <v-list-group
@@ -402,7 +364,7 @@
                 <v-list-item-title class="ml-2">Sms</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item link to="/setup/sms-letter">
+            <v-list-item link to="/setup/sms/sms-letter">
               <v-list-item-action>
                 <v-icon></v-icon>
               </v-list-item-action>

@@ -1,5 +1,4 @@
 <template>
-
   <v-container
     id="user-profile"
     fluid
@@ -12,7 +11,7 @@
       >
         <MaterialCard
           color="success"
-          title="Departments"
+          title="Sms"
           class="px-5 py-3"
         >
           <v-data-table
@@ -39,7 +38,7 @@
                       @click="reset"
                       rounded
                     >
-                      Add Department
+                      Add sms
                     </v-btn>
                   </template>
                   <v-card>
@@ -74,8 +73,58 @@
                                   :items="branches"
                                   :item-text="branches.text"
                                   :item-value="branches.value"
-                                  label="Select Branch"
+                                  label="Select branch"
                                 ></v-select>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="status"
+                                  type="number"
+                                  v-model="editedItem.status"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-text-field
+                                  label="Type"
+                                  type="number"
+                                  v-model="editedItem.type"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.auto"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Auto"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="6"
+                              >
+                                <v-checkbox
+                                  v-model="editedItem.both"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Both"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
                               </v-col>
                               <v-col
                                 cols="12"
@@ -108,10 +157,9 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Manager Name in English"
-                                  v-model="editedItem.en_manager_name"
-                                  :rules="[ (value) => !!value || 'This  field is required',
-                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
+                                  label="Description in Arabic"
+                                  class="direction"
+                                  v-model="editedItem.ar_description"
                                 ></v-text-field>
                               </v-col>
                               <v-col
@@ -120,30 +168,8 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Manager Name in Arabic"
-                                  v-model="editedItem.ar_manager_name"
-                                  :rules="[ (value) => !!value || 'This  field is required',
-                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-text-field
-                                  label="Acctgbranch"
-                                  v-model="editedItem.acctgbranch"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-text-field
-                                  label="Fabranch"
-                                  v-model="editedItem.fabranch"
+                                  label="Description in English"
+                                  v-model="editedItem.en_description"
                                 ></v-text-field>
                               </v-col>
                             </v-row>
@@ -185,10 +211,133 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+
+                <v-dialog v-model="dialogAttach" max-width="unset" persistent>
+                  <v-card>
+                    <v-card-title class="headline">Attach Sms Fields</v-card-title>
+                    <v-card-text>
+                      <v-container>
+                        <v-form ref="form">
+                          <v-container class="py-0">
+                            <v-row>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="2"
+                              >
+                                <v-select
+                                  v-model="attachData.column_id"
+                                  :items="column"
+                                  :item-text="column.text"
+                                  :item-value="column.value"
+                                  label="Select Column"
+                                ></v-select>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="2"
+                              >
+                                <v-text-field
+                                  label="Order by"
+                                  type="number"
+                                  v-model="attachData.order_by"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="2"
+                              >
+                                <v-text-field
+                                  label="An sequence"
+                                  type="number"
+                                  v-model="attachData.ar_sequence"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="2"
+                              >
+                                <v-text-field
+                                  label="Format"
+                                  v-model="attachData.format"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="2"
+                              >
+                                <v-checkbox
+                                  v-model="attachData.both_language"
+                                  :false-value="0"
+                                  :true-value="1"
+                                  label="Both language"
+                                  color="success"
+                                  hide-details
+                                ></v-checkbox>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="2"
+                              >
+                                <v-text-field
+                                  label="En sequence"
+                                  type="number"
+                                  v-model="attachData.en_sequence"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                md="2"
+                                offset-md="5"
+                              >
+                                <v-btn color="blue darken-1" text @click="attachWithLetter">Attach</v-btn>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                        </v-form>
+                      </v-container>
+                      <v-data-table
+                        :headers="attachHeaders"
+                        :items="letterFieldsData"
+                        sort-by="en_name"
+                      >
+                        <template v-slot:item.actions="{ item }">
+                          <v-icon
+                            small
+                            @click="deleteItem(item.id)"
+                          >
+                            mdi-delete
+                          </v-icon>
+                        </template>
+
+                      </v-data-table>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="blue darken-1" text @click="dialogAttach=false">Cancel</v-btn>
+                      <!--                      <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>-->
+                      <v-spacer></v-spacer>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+
               </v-toolbar>
             </template>
 
             <template v-slot:item.actions="{ item }">
+              <v-icon
+                small
+                class="mr-2"
+                @click="attachFields(item.id)"
+              >
+                mdi-attachment
+              </v-icon>
               <v-icon
                 small
                 class="mr-2"
@@ -211,28 +360,44 @@
 </template>
 
 <script>
-import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
+import MaterialCard from "../../../components/base/MaterialCard";
+
 export default {
-  name: "Departments",
+  name: "sms-letter.vue",
   components: {MaterialCard },
   middleware: ["auth"],
   data(){
     return{
       dialog: false,
       dialogDelete: false,
+      dialogAttach: false,
       headers: [
         {
           text: 'ID',
           align: 'start',
           value: 'id',
         },
-        { text: 'En Name', value: 'en_name' },
-        { text: 'Ar Name', value: 'ar_name' },
-        { text: 'En Manager Name', value: 'en_manager_name' },
-        { text: 'Ar Manager Name', value: 'ar_manager_name' },
-        { text: 'acctgbranch', value: 'acctgbranch' },
-        { text: 'fabranch', value: 'fabranch' },
+        { text: 'Serial id', value: 'status' },
+        { text: 'Doc type', value: 'type' },
+        { text: 'Request', value: 'auto' },
+        { text: 'Request', value: 'both' },
+        { text: 'En name', value: 'en_name' },
+        { text: 'Ar name', value: 'ar_name' },
+        { text: 'Ar description', value: 'ar_description' },
+        { text: 'En description', value: 'en_description' },
+        { text: 'Actions', value: 'actions', sortable: false },
+      ],
+      attachHeaders: [
+        {
+          text: 'ID',
+          align: 'start',
+          value: 'id',
+        },
+        { text: 'Order by', value: 'order_by' },
+        { text: 'Ar sequence', value: 'ar_sequence' },
+        { text: 'En sequence', value: 'en_sequence' },
+        { text: 'Both language', value: 'both_language' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
@@ -240,30 +405,67 @@ export default {
       editedItem: {
         company_id: '',
         branch_id: '',
+        status: '',
+        type: '',
         en_name: '',
         ar_name: '',
-        en_manager_name: '',
-        ar_manager_name: '',
-        acctgbranch: '',
-        fabranch: '',
+        en_description: '',
+        ar_description: '',
+        auto: '0',
+        both: '0',
+      },
+      attachData :{
+        column_id : '',
+        sms_id: '',
+        order_by: '',
+        ar_sequence: '',
+        en_sequence: '',
+        both_language: '0',
+        format: '',
+        language: '',
+        en_name: '',
+        ar_name: '',
       },
       countryId:[],
       allData: [],
       companies: [],
       branches: [],
+      column: [],
+      letterFieldsData: [],
     }
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Department' : 'Edit Department'
+      return this.editedIndex === -1 ? 'New sms' : 'Edit sms'
     }
   },
   created () {
+    this.getColumn()
     this.getCompanies()
     this.getBranches()
     this.getList()
   },
   methods: {
+    getColumn () {
+      let arr = []
+      let data = { path: "/column_selects/2" }
+      this.$store.dispatch('list',data).then(response => {
+        if(Array.isArray(response.data.data)) {
+          response.data.data.forEach(data => {
+            arr.push({
+              text : data.en_description +' '+ data.ar_description,
+              value: data.id
+            })
+          })
+        } else {
+          arr.push({
+            text : response.data.data.en_description +' '+ response.data.data.ar_description,
+            value: response.data.data.id
+          })
+        }
+        this.column = arr
+      })
+    },
     getCompanies () {
       let arr = []
       let data = { path: "/companies" }
@@ -290,8 +492,20 @@ export default {
         this.branches = arr
       })
     },
+    getSmsFields () {
+      let data = { path: "/sms_fields" }
+      this.$store.dispatch('list',data).then(response => {
+        this.letterFieldsData = response.data.data
+        this.$store.commit("SHOW_LOADER", false);
+        this.$store.commit("SHOW_SNACKBAR", {
+          snackbar: true,
+          color: "green",
+          message: response.data.message
+        })
+      })
+    },
     getList(){
-      let data = { path: "/company_departments" }
+      let data = { path: "/sms_templates" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -306,7 +520,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/company_department/"+this.editedItem.id,
+            path:"/sms_template/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -330,7 +544,7 @@ export default {
         }
         else {
           let data={
-            path:"/company_departments",
+            path:"/sms_templates",
             data:this.editedItem
           }
           this.dialog = false
@@ -372,10 +586,11 @@ export default {
     },
     async deleteItemConfirm() {
       this.dialogDelete = false
+      let path = this.dialogAttach === true ? '/delete_sms_fields' : '/delete_sms_templates'
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_company_departments'
+        'path' : path
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -385,6 +600,7 @@ export default {
           message: response.data.message
         });
         this.getList()
+        this.getSmsFields()
       }).catch(error => {
         this.$store.commit("SHOW_LOADER", false);
         this.$store.commit("SHOW_SNACKBAR", {
@@ -395,18 +611,61 @@ export default {
       })
     },
     reset() {
-      this.editedItem.en_name = ''
-      this.editedItem.ar_name = ''
       this.editedItem.company_id = ''
       this.editedItem.branch_id = ''
-      this.editedItem.en_manager_name = ''
-      this.editedItem.ar_manager_name = ''
-      this.editedItem.acctgbranch = ''
-      this.editedItem.fabranch = ''
+      this.editedItem.status = ''
+      this.editedItem.type = ''
+      this.editedItem.en_name = ''
+      this.editedItem.ar_name = ''
+      this.editedItem.en_description = ''
+      this.editedItem.ar_description = ''
+      this.editedItem.language = ''
+      this.editedItem.auto = '0'
+      this.editedItem.both = '0'
       this.countryId = []
       this.editedIndex = -1
+    },
+    attachFields(id){
+      this.getSmsFields()
+      this.dialogAttach = true
+      this.attachData.sms_id = id
+    },
+    attachWithLetter () {
+      let data = {
+        path:"/sms_fields",
+        data:this.attachData
+      }
+      this.$store.commit("SHOW_LOADER", true);
+      this.$store.dispatch("create", data).then(response => {
+        this.resetAttachData()
+        this.$store.commit("SHOW_LOADER", false);
+        this.$store.commit("SHOW_SNACKBAR", {
+          snackbar: true,
+          color: "green",
+          message: response.data.message
+        });
+        this.getSmsFields()
+      }).catch(error => {
+        this.$store.commit("SHOW_LOADER", false);
+        this.$store.commit("SHOW_SNACKBAR", {
+          snackbar: true,
+          color: "error",
+          message: error.response.data.message
+        });
+      })
+    },
+    resetAttachData () {
+      this.attachData.column_id  = ''
+      this.attachData.sms_id = ''
+      this.attachData.order_by = ''
+      this.attachData.ar_sequence = ''
+      this.attachData.en_sequence = ''
+      this.attachData.both_language = '0'
+      this.attachData.format = ''
+      this.attachData.language = ''
     }
-  },
+
+  }
 }
 </script>
 

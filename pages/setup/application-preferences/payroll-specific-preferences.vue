@@ -440,7 +440,14 @@ export default {
           color: "green",
           message: response.data.message
         });
-      });
+      }).catch(error => {
+        this.$store.commit("SHOW_LOADER", false);
+        this.$store.commit("SHOW_SNACKBAR", {
+          snackbar: true,
+          color: "error",
+          message: error.response.data.message
+        });
+      })
     },
     async save () {
       if(this.$refs.form.validate()) {
@@ -476,7 +483,14 @@ export default {
               message: response.data.message
             });
             this.getList()
-          });
+          }).catch(error => {
+            this.$store.commit("SHOW_LOADER", false);
+            this.$store.commit("SHOW_SNACKBAR", {
+              snackbar: true,
+              color: "error",
+              message: error.response.data.message
+            });
+          })
         }
       }
 
@@ -511,7 +525,14 @@ export default {
           message: response.data.message
         });
         this.getList()
-      });
+      }).catch(error => {
+        this.$store.commit("SHOW_LOADER", false);
+        this.$store.commit("SHOW_SNACKBAR", {
+          snackbar: true,
+          color: "error",
+          message: error.response.data.message
+        });
+      })
     },
     reset() {
       this.editedItem.gosi_alert_days = ''

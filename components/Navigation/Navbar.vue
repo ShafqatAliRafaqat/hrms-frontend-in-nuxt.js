@@ -197,7 +197,7 @@
                 <v-icon>mdi-atom</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>Preferences</v-list-item-title>
+                <v-list-item-title class="ml-4">Preferences</v-list-item-title>
               </v-list-item-content>
             </template>
             <v-list-item link to="/setup/application-preferences/gosi-preferences">
@@ -243,7 +243,7 @@
                 <v-icon>mdi-camera-iris</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>Associate Benefits</v-list-item-title>
+                <v-list-item-title class="text-center ml-4">Associate Benefits</v-list-item-title>
               </v-list-item-content>
             </template>
             <v-list-item link to="/setup/associate-benefits">
@@ -263,7 +263,7 @@
                 <v-icon>mdi-brightness-7</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>Associate Evaluation</v-list-item-title>
+                <v-list-item-title class="text-center ml-4">Associate Evaluation</v-list-item-title>
               </v-list-item-content>
             </template>
             <v-list-item link to="/setup/associate-evaluation">
@@ -284,7 +284,7 @@
                 <v-icon>mdi-camera-control</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>Letter</v-list-item-title>
+                <v-list-item-title class="ml-4">Letter</v-list-item-title>
               </v-list-item-content>
             </template>
             <v-list-item link to="/setup/letter">
@@ -305,7 +305,7 @@
                 <v-icon>mdi-book-open-outline</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>Sms</v-list-item-title>
+                <v-list-item-title class="ml-4">Sms</v-list-item-title>
               </v-list-item-content>
             </template>
             <v-list-item link to="/setup/sms-letter">

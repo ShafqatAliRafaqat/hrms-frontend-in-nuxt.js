@@ -11,7 +11,7 @@
       >
         <MaterialCard
           color="success"
-          title="Earnings"
+          title="Letter Fields"
           class="px-5 py-3"
         >
           <v-data-table
@@ -38,7 +38,7 @@
                       @click="reset"
                       rounded
                     >
-                      Add Earning
+                      Add Letter Fields
                     </v-btn>
                   </template>
                   <v-card>
@@ -55,13 +55,13 @@
                                 sm="6"
                                 md="6"
                               >
-                                <v-text-field
-                                  label="Competence Name in Arabic"
-                                  class="direction"
-                                  v-model="editedItem.ar_name"
-                                  :rules="[ (value) => !!value || 'This  field is required',
-                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
-                                ></v-text-field>
+                                <v-select
+                                  v-model="editedItem.company_id"
+                                  :items="companies"
+                                  :item-text="companies.text"
+                                  :item-value="companies.value"
+                                  label="Select Company"
+                                ></v-select>
                               </v-col>
                               <v-col
                                 cols="12"
@@ -69,23 +69,10 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  label="Competence Name in English"
-                                  v-model="editedItem.en_name"
-                                  :rules="[ (value) => !!value || 'This  field is required',
-                                (value) => (value && value.length <= 50) || 'maximum 50 characters',]"
-                                ></v-text-field>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-text-field
-                                  label="Percentage of Salary"
+                                  label="Order By"
                                   type="number"
-                                  v-model="editedItem.percentage_of_salary"
-                                  :rules="[ (value) => !!value || 'This  field is required',
-                                (value) => (value && value.length <= 10) || 'maximum 5 characters',]"
+                                  v-model="editedItem.order_by"
+                                  :rules="[ (value) => !!value || 'This  field is required']"
                                 ></v-text-field>
                               </v-col>
                               <v-col
@@ -94,10 +81,10 @@
                                 md="6"
                               >
                                 <v-checkbox
-                                  v-model="editedItem.w_value"
+                                  v-model="editedItem.both_language"
                                   :false-value="0"
                                   :true-value="1"
-                                  label="w_value"
+                                  label="Both Language"
                                   color="success"
                                   hide-details
                                 ></v-checkbox>
@@ -107,42 +94,10 @@
                                 sm="6"
                                 md="6"
                               >
-                                <v-checkbox
-                                  v-model="editedItem.is_factor"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="is_factor"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-checkbox
-                                  v-model="editedItem.is_fixed"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="Is Fixed"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
-                              </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                md="6"
-                              >
-                                <v-checkbox
-                                  v-model="editedItem.is_mb"
-                                  :false-value="0"
-                                  :true-value="1"
-                                  label="Is mb"
-                                  color="success"
-                                  hide-details
-                                ></v-checkbox>
+                                <v-text-field
+                                  label="Language"
+                                  v-model="editedItem.language"
+                                ></v-text-field>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -156,7 +111,8 @@
                       <v-btn
                         color="blue darken-1"
                         text
-                        @click="dialog=false"
+                        @click="dialog = false"
+                        rounded
                       >
                         Cancel
                       </v-btn>
@@ -164,6 +120,7 @@
                         color="blue darken-1"
                         text
                         @click="save"
+                        rounded
                       >
                         Save
                       </v-btn>
@@ -210,7 +167,7 @@
 import MaterialCard from "../../../components/base/MaterialCard";
 import Vue from "vue";
 export default {
-  name: "Earnings",
+  name: "letter-fields",
   components: {MaterialCard },
   middleware: ["auth"],
   data(){
@@ -223,41 +180,58 @@ export default {
           align: 'start',
           value: 'id',
         },
-        { text: 'En Name', value: 'en_name' },
-        { text: 'Ar Name', value: 'ar_name' },
-        { text: 'Percentage of Salary', value: 'percentage_of_salary' },
-        { text: 'w_value', value: 'w_value' },
-        { text: 'Is Factor', value: 'is_factor' },
-        { text: 'Is Fixed', value: 'is_fixed' },
-        { text: 'Is mb', value: 'is_mb' },
+        { text: 'Serial id', value: 'serial_id' },
+        { text: 'Doc type', value: 'doc_type' },
+        { text: 'Request', value: 'request' },
+        { text: 'En name', value: 'en_name' },
+        { text: 'Ar name', value: 'ar_name' },
+        { text: 'Ar description', value: 'ar_description' },
+        { text: 'En description', value: 'en_description' },
+        { text: 'Language', value: 'language' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],
       editedIndex: -1,
       editedItem: {
-        en_name: '',
-        ar_name: '',
-        percentage_of_salary: '',
-        w_value: '0',
-        is_factor: '0',
-        is_fixed: '0',
-        is_mb: '0',
+        order_by: '',
+        format: '',
+        letter_id: '',
+        column_id: '',
+        language: '',
+        both_language: '0',
       },
       countryId:[],
-      allData: []
+      allData: [],
+      companies: [],
+      branches: [],
     }
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Earning' : 'Edit Earning'
+      return this.editedIndex === -1 ? 'New Letter Fields' : 'Edit Letter Fields'
     }
   },
   created () {
+    this.getColumn()
     this.getList()
   },
   methods: {
+    getColumn () {
+      let arr = []
+      let data = { path: "/column_selects/1" }
+      this.$store.dispatch('list',data).then(response => {
+        console.log(response, 'here')
+        // response.data.data.forEach(data => {
+        //   arr.push({
+        //     text : data.en_name +' '+ data.ar_name,
+        //     value: data.id
+        //   })
+        // })
+        // this.companies = arr
+      })
+    },
     getList(){
-      let data = { path: "/earnings" }
+      let data = { path: "/letters" }
       this.$store.dispatch('list',data).then(response => {
         this.allData = response.data.data
         this.$store.commit("SHOW_LOADER", false);
@@ -272,7 +246,7 @@ export default {
       if(this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
           let data={
-            path:"/earning/"+this.editedItem.id,
+            path:"/letter/"+this.editedItem.id,
             data:this.editedItem
           }
           this.dialog = false
@@ -296,7 +270,7 @@ export default {
         }
         else {
           let data={
-            path:"/earnings",
+            path:"/letters",
             data:this.editedItem
           }
           this.dialog = false
@@ -326,6 +300,8 @@ export default {
       // this.editedIndex =this.desserts.indexOf(item)
       // console.log('index',this.desserts.indexOf(item))
       this.editedItem = Vue.util.extend({}, item);
+      this.editedItem.company_id = item.company_id.id
+      this.editedItem.branch_id = item.branch_id.id
       this.dialog = true
     },
     deleteItem (id) {
@@ -339,7 +315,7 @@ export default {
       this.$store.commit("SHOW_LOADER", true);
       let data = {
         'ids': this.countryId,
-        'path' : '/delete_earnings'
+        'path' : '/delete_letters'
       }
       await this.$store.dispatch("delete", data).then(response => {
         this.$store.commit("SHOW_LOADER", false);
@@ -358,15 +334,13 @@ export default {
         });
       })
     },
-
     reset() {
-      this.editedItem.en_name = ''
-      this.editedItem.ar_name = ''
-      this.editedItem.percentage_of_salary = ''
-      this.editedItem.w_value = '0'
-      this.editedItem.is_factor = '0'
-      this.editedItem.is_fixed = '0'
-      this.editedItem.is_mb = '0'
+      this.editedItem.order_by = ''
+      this.editedItem.format = ''
+      this.editedItem.letter_id = ''
+      this.editedItem.column_id = ''
+      this.editedItem.language = ''
+      this.editedItem.both_language = '0'
       this.countryId = []
       this.editedIndex = -1
     }
