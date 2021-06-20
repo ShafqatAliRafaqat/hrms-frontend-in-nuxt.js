@@ -446,7 +446,7 @@ export default {
   methods: {
     getColumn () {
       let arr = []
-      let data = { path: "/column_selects/1" }
+      let data = { path: "/column_selects?group_by=1" }
       this.$store.dispatch('list',data).then(response => {
         if(Array.isArray(response.data.data)) {
           response.data.data.forEach(data => {
